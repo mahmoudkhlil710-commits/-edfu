@@ -3,126 +3,66 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>مؤسسة القيادات الشبابية</title>
+<title>مؤسسة القيادات الشبابية لتنمية المجتمع</title>
 <script src="https://cdn.tailwindcss.com"></script>
+<style>
+  .del-btn{position:absolute; top:6px; left:6px; background:#dc2626; color:white; border:none; padding:5px 12px; border-radius:20px; font-weight:900; cursor:pointer; font-size:13px; z-index:10;}
+  .img-wrap{position:relative;}
+  .img-wrap img{width:100%; height:300px; object-fit:cover; border-radius:16px; border:2px solid #e5e7eb; display:block;}
+</style>
 </head>
 <body class="bg-gray-50">
 
+<!-- البنر العلوي -->
 <img src="banner.jpg" style="width:100%; display:block;">
 
-<div class="bg-green-800 text-center py-4">
-<a href="https://wa.me/201150844699" class="bg-white text-green-800 px-8 py-3 rounded-full font-black text-lg inline-block">01150844699 - واتس</a>
+<!-- ازرار التواصل -->
+<div class="bg-green-800 text-center py-4 flex justify-center gap-3 px-4">
+<a href="https://wa.me/201150844699" class="bg-[#25D366] text-white px-6 py-3 rounded-full font-black flex-1 max-w-[160px] text-center">واتس</a>
+<a href="tel:01152233201" class="bg-white text-green-800 px-6 py-3 rounded-full font-black flex-1 max-w-[160px] text-center">01152233201</a>
 </div>
 
-<div class="bg-green-800 text-white text-center pb-6 -mt-1">
+<div class="bg-green-800 text-white text-center pb-6">
 <h1 class="text-2xl font-black">مؤسسة القيادات الشبابية لتنمية المجتمع</h1>
-<p>المشهرة برقم 1833 لسنة 2026 - إدفو</p>
+<p class="text-sm mt-1">المشهرة برقم 1833 لسنة 2026 - إدفو - أسوان</p>
 </div>
 
-<!-- القافلة الطبية -->
+<!-- 1- القافلة الطبية -->
 <div style="margin:20px 10px; background:#fff; border-radius:20px; padding:15px; border:2px solid #0a2a5e;">
-<h2 style="text-align:center; background:#0a2a5e; color:white; padding:12px; border-radius:12px; font-size:22px; font-weight:900; margin-bottom:15px;">القافلة الطبية</h2>
-<div class="text-center mb-3"><label for="qafilaUpload" style="background:#0a2a5e; color:white; padding:8px 20px; border-radius:20px; cursor:pointer; font-weight:900; font-size:14px;">+ اضف صور القافلة</label><input type="file" id="qafilaUpload" multiple accept="image/*" style="display:none;"></div>
-<div id="qafilaGrid" style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
-<img src="IMG-20261101-WA0033.jpg" style="width:100%; height:220px; object-fit:cover; border-radius:15px;">
-<img src="IMG-20261101-WA0034.jpg" style="width:100%; height:220px; object-fit:cover; border-radius:15px;">
-<img src="IMG-20261101-WA0035.jpg" style="width:100%; height:220px; object-fit:cover; border-radius:15px;">
-<img src="IMG-20261101-WA0036.jpg" style="width:100%; height:220px; object-fit:cover; border-radius:15px;">
-<img src="IMG-20261101-WA0037.jpg" style="width:100%; height:220px; object-fit:cover; border-radius:15px; grid-column: span 2;">
-</div>
+<h2 style="text-align:center; background:#0a2a5e; color:white; padding:12px; border-radius:12px; font-size:22px; font-weight:900; margin-bottom:12px;">القافلة الطبية</h2>
+<div class="text-center mb-3"><label for="qafilaUpload" style="background:#0a2a5e; color:white; padding:10px 22px; border-radius:25px; cursor:pointer; font-weight:900; display:inline-block;">+ اضف صور القافلة</label><input type="file" id="qafilaUpload" multiple accept="image/*" style="display:none;"></div>
+<div id="qafilaGrid" style="display:grid; grid-template-columns:1fr 1fr; gap:12px;"></div>
 </div>
 
-<!-- الوعي نور -->
+<!-- 2- الوعي نور -->
 <div style="margin:20px 10px; background:#fff; border-radius:20px; padding:15px; border:2px solid #b91c1c;">
-<h2 style="text-align:center; background:#b91c1c; color:white; padding:12px; border-radius:12px; font-size:22px; font-weight:900; margin-bottom:15px;">الوعي نور</h2>
-<div class="text-center mb-3"><label for="waeyUpload" style="background:#b91c1c; color:white; padding:8px 20px; border-radius:20px; cursor:pointer; font-weight:900; font-size:14px;">+ اضف صور الوعي نور</label><input type="file" id="waeyUpload" multiple accept="image/*" style="display:none;"></div>
-<div id="waeyGrid" style="display:grid; grid-template-columns:1fr; gap:15px;">
-<img src="IMG-20261101-WA0028.jpg" style="width:100%; border-radius:15px;">
-<img src="IMG-20261101-WA0029.jpg" style="width:100%; border-radius:15px;">
-<img src="IMG-20261101-WA0030.jpg" style="width:100%; border-radius:15px;">
-</div>
+<h2 style="text-align:center; background:#b91c1c; color:white; padding:12px; border-radius:12px; font-size:22px; font-weight:900; margin-bottom:12px;">الوعي نور</h2>
+<div class="text-center mb-3"><label for="waeyUpload" style="background:#b91c1c; color:white; padding:10px 22px; border-radius:25px; cursor:pointer; font-weight:900; display:inline-block;">+ اضف صور الوعي نور</label><input type="file" id="waeyUpload" multiple accept="image/*" style="display:none;"></div>
+<div id="waeyGrid" style="display:grid; grid-template-columns:1fr; gap:15px;"></div>
 </div>
 
-<!-- العلم نور -->
+<!-- 3- العلم نور -->
 <div style="margin:20px 10px; background:#fff; border-radius:20px; padding:15px; border:2px solid #065f46;">
-<h2 style="text-align:center; background:#065f46; color:white; padding:12px; border-radius:12px; font-size:22px; font-weight:900; margin-bottom:15px;">مبادرة العلم نور</h2>
-<div class="text-center mb-3"><label for="elmUpload" style="background:#065f46; color:white; padding:8px 20px; border-radius:20px; cursor:pointer; font-weight:900; font-size:14px;">+ اضف صور العلم نور</label><input type="file" id="elmUpload" multiple accept="image/*" style="display:none;"></div>
-<div id="elmGrid" style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
-<img src="IMG-20261101-WA0031.jpg" style="width:100%; border-radius:15px;">
-<img src="IMG-20261101-WA0032.jpg" style="width:100%; border-radius:15px;">
-</div>
+<h2 style="text-align:center; background:#065f46; color:white; padding:12px; border-radius:12px; font-size:22px; font-weight:900; margin-bottom:12px;">مبادرة العلم نور</h2>
+<div class="text-center mb-3"><label for="elmUpload" style="background:#065f46; color:white; padding:10px 22px; border-radius:25px; cursor:pointer; font-weight:900; display:inline-block;">+ اضف صور العلم نور</label><input type="file" id="elmUpload" multiple accept="image/*" style="display:none;"></div>
+<div id="elmGrid" style="display:grid; grid-template-columns:1fr 1fr; gap:12px;"></div>
 </div>
 
-<!-- شبابنا قوتنا -->
+<!-- 4- شبابنا قوتنا -->
 <div style="margin:20px 10px; background:#fff; border-radius:20px; padding:15px; border:2px solid #000;">
-<h2 style="text-align:center; background:#000; color:#d4af37; padding:12px; border-radius:12px; font-size:20px; font-weight:900; margin-bottom:15px;">شبابنا قوتنا</h2>
-<div class="text-center mb-3"><label for="shababUpload" style="background:#000; color:#d4af37; padding:8px 20px; border-radius:20px; cursor:pointer; font-weight:900; font-size:14px;">+ اضف صور شبابنا قوتنا</label><input type="file" id="shababUpload" multiple accept="image/*" style="display:none;"></div>
-<div id="shababGrid" style="display:grid; grid-template-columns:1fr; gap:15px;">
-<img src="IMG-20261101-WA0043.jpg" style="width:100%; border-radius:15px;">
-<img src="IMG-20261101-WA0044.jpg" style="width:100%; border-radius:15px;">
-<img src="IMG-20261101-WA0045.jpg" style="width:100%; border-radius:15px;">
-</div>
+<h2 style="text-align:center; background:#000; color:#d4af37; padding:12px; border-radius:12px; font-size:20px; font-weight:900; margin-bottom:12px;">شبابنا قوتنا</h2>
+<div class="text-center mb-3"><label for="shababUpload" style="background:#000; color:#d4af37; padding:10px 22px; border-radius:25px; cursor:pointer; font-weight:900; display:inline-block;">+ اضف صور شبابنا قوتنا</label><input type="file" id="shababUpload" multiple accept="image/*" style="display:none;"></div>
+<div id="shababGrid" style="display:grid; grid-template-columns:1fr; gap:15px;"></div>
 </div>
 
-<!-- التمريض المنزلي -->
+<!-- 5- التمريض المنزلي -->
 <div style="margin:25px 10px; background:#fff; border-radius:25px; padding:15px; border:3px solid #0a2a5e;">
-<h2 style="text-align:center; background:#0a2a5e; color:white; padding:15px; border-radius:15px; font-size:23px; font-weight:900; margin-bottom:15px;">🏥 التمريض المنزلي</h2>
-<div class="text-center mb-3"><label for="tamreedUpload" style="background:#0a2a5e; color:white; padding:8px 20px; border-radius:20px; cursor:pointer; font-weight:900; font-size:14px;">+ اضف صور التمريض</label><input type="file" id="tamreedUpload" multiple accept="image/*" style="display:none;"></div>
-<div id="tamreedGrid" style="display:grid; grid-template-columns:1fr; gap:18px;">
-<img src="IMG-20261101-WA0042.jpg" style="width:100%; border-radius:18px;">
-<img src="IMG-20261101-WA0046.jpg" style="width:100%; border-radius:18px;">
-</div>
+<h2 style="text-align:center; background:#0a2a5e; color:white; padding:15px; border-radius:15px; font-size:23px; font-weight:900; margin-bottom:12px;">🏥 التمريض المنزلي</h2>
+<div class="text-center mb-3"><label for="tamreedUpload" style="background:#0a2a5e; color:white; padding:10px 22px; border-radius:25px; cursor:pointer; font-weight:900; display:inline-block;">+ اضف صور التمريض</label><input type="file" id="tamreedUpload" multiple accept="image/*" style="display:none;"></div>
+<div id="tamreedGrid" style="display:grid; grid-template-columns:1fr; gap:18px;"></div>
 </div>
 
-<!-- حفظة كتاب الله -->
+<!-- 6- حفظة كتاب الله -->
 <div style="margin:25px 10px; background:#fff; border-radius:25px; padding:15px; border:3px solid #065f46;">
-<h2 style="text-align:center; background:#065f46; color:white; padding:15px; border-radius:15px; font-size:24px; font-weight:900; margin-bottom:15px;">📖 حفظة كتاب الله</h2>
-<div style="text-align:center; margin-bottom:15px;"><label for="huffazUpload" style="background:#184e3a; color:white; padding:12px 25px; border-radius:30px; font-weight:900; cursor:pointer; display:inline-block;">+ اختار صور الحفظة</label><input type="file" id="huffazUpload" multiple accept="image/*" style="display:none;"></div>
-<div id="huffazGrid" style="display:grid; grid-template-columns:1fr 1fr; gap:12px;"></div>
-</div>
-
-<!-- احتفالات اكتوبر - جديد -->
-<div style="margin:25px 10px; background:#fff; border-radius:25px; padding:15px; border:3px solid #b91c1c;">
-<h2 style="text-align:center; background:linear-gradient(90deg,#000,#b91c1c,#000); color:white; padding:15px; border-radius:15px; font-size:24px; font-weight:900; margin-bottom:15px;">🇪🇬 احتفالات أكتوبر</h2>
-<div style="text-align:center; margin-bottom:15px;"><label for="octoberUpload" style="background:#b91c1c; color:white; padding:12px 25px; border-radius:30px; font-weight:900; cursor:pointer; display:inline-block;">+ اختار صور احتفالات أكتوبر</label><input type="file" id="octoberUpload" multiple accept="image/*" style="display:none;"><p style="font-size:13px; color:#777; margin-top:8px;">يقبل أي اسم وأي عدد</p></div>
-<div id="octoberGrid" style="display:grid; grid-template-columns:1fr 1fr; gap:12px;"></div>
-</div>
-
-<!-- الحج والعمرة - جديد -->
-<div style="margin:25px 10px; background:#fff; border-radius:25px; padding:15px; border:3px solid #000;">
-<h2 style="text-align:center; background:#000; color:#d4af37; padding:15px; border-radius:15px; font-size:24px; font-weight:900; margin-bottom:15px;">🕋 الحج والعمرة</h2>
-<div style="text-align:center; margin-bottom:15px;"><label for="hajjUpload" style="background:#000; color:#d4af37; padding:12px 25px; border-radius:30px; font-weight:900; cursor:pointer; display:inline-block; border:1px solid #d4af37;">+ اختار صور الحج والعمرة</label><input type="file" id="hajjUpload" multiple accept="image/*" style="display:none;"><p style="font-size:13px; color:#777; margin-top:8px;">يقبل أي اسم وأي عدد</p></div>
-<div id="hajjGrid" style="display:grid; grid-template-columns:1fr 1fr; gap:12px;"></div>
-</div>
-
-<footer class="bg-green-900 text-white text-center py-4 text-sm">© مؤسسة القيادات الشبابية - إدفو</footer>
-
-<script>
-function setupUploader(inputId, gridId){
-  const input = document.getElementById(inputId);
-  const grid = document.getElementById(gridId);
-  input.addEventListener('change', function(e){
-    for(let file of e.target.files){
-      const reader = new FileReader();
-      reader.onload = function(ev){
-        const img = document.createElement('img');
-        img.src = ev.target.result;
-        img.style = "width:100%; height:280px; object-fit:cover; border-radius:15px; border:2px solid #ccc;";
-        grid.appendChild(img);
-      }
-      reader.readAsDataURL(file);
-    }
-  });
-}
-setupUploader('qafilaUpload','qafilaGrid');
-setupUploader('waeyUpload','waeyGrid');
-setupUploader('elmUpload','elmGrid');
-setupUploader('shababUpload','shababGrid');
-setupUploader('tamreedUpload','tamreedGrid');
-setupUploader('huffazUpload','huffazGrid');
-setupUploader('octoberUpload','octoberGrid');
-setupUploader('hajjUpload','hajjGrid');
-</script>
-
-</body>
-</html>
+<h2 style="text-align:center; background:#065f46; color:white; padding:15px; border-radius:15px; font-size:24px; font-weight:900; margin-bottom:12px;">📖 حفظة كتاب الله</h2>
+<div style="text-align:center; margin-bottom
