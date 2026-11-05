@@ -14,17 +14,26 @@ body{margin:0;font-family:sans-serif;background:#f2f2f2;padding-bottom:80px}
 .container{padding:12px;max-width:600px;margin:auto}
 .card{background:white;border:2px solid #1e3a8a;border-radius:18px;padding:15px;margin-bottom:15px;text-align:center}
 .card.red{border-color:#c62828}
+.card.green{border-color:#0f6b2f}
+.card.orange{border-color:#ef6c00}
+.card.purple{border-color:#6a1b9a}
 .card-title{background:#1e3a8a;color:white;padding:14px;border-radius:12px;font-size:22px;font-weight:bold;margin:0 0 15px}
 .card.red .card-title{background:#c62828}
+.card.green .card-title{background:#0f6b2f}
+.card.orange .card-title{background:#ef6c00}
+.card.purple .card-title{background:#6a1b9a}
 .btn{background:#1e3a8a;color:white;border:none;padding:13px 25px;border-radius:50px;font-size:18px;font-weight:bold;cursor:pointer;display:inline-block}
 .card.red .btn{background:#c62828}
+.card.green .btn{background:#0f6b2f}
+.card.orange .btn{background:#ef6c00}
+.card.purple .btn{background:#6a1b9a}
 input[type=file]{display:none}
 .status{color:#0f6b2f;font-weight:bold;margin-top:10px;min-height:20px}
 .gallery{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:15px}
 .img-box{position:relative;width:48%}
 .img-box img{width:100%;height:140px;object-fit:cover;border-radius:12px;display:block}
 .del-btn{position:absolute;top:5px;left:5px;background:#d32f2f;color:white;border:none;width:30px;height:30px;border-radius:50%;font-size:16px;cursor:pointer}
-.whats-float{position:fixed;bottom:15px;right:15px;left:15px;background:#25D366;color:white;text-align:center;padding:15px;border-radius:50px;font-size:19px;font-weight:bold;text-decoration:none;box-shadow:0 5px 15px rgba(0,0,0,.3);z-index:100}
+.whats-float{position:fixed;bottom:15px;left:15px;background:#25D366;color:white;text-align:center;padding:12px 16px;border-radius:50%;font-size:24px;font-weight:bold;text-decoration:none;box-shadow:0 5px 15px rgba(0,0,0,.3);z-index:100}
 .whats-top{background:#25D366;color:white;display:inline-block;padding:12px 25px;border-radius:50px;text-decoration:none;font-weight:bold;font-size:17px;margin-top:10px}
 footer{background:#0f6b2f;color:white;text-align:center;padding:15px;font-size:14px;margin-top:10px}
 </style>
@@ -59,7 +68,7 @@ footer{background:#0f6b2f;color:white;text-align:center;padding:15px;font-size:1
 <div class="gallery" id="gallery2"></div>
 </div>
 
-<div class="card">
+<div class="card green">
 <h3 class="card-title">تنمية المجتمع</h3>
 <label class="btn">+ اضف صور تنمية المجتمع
 <input type="file" id="file3" accept="image/*">
@@ -68,11 +77,47 @@ footer{background:#0f6b2f;color:white;text-align:center;padding:15px;font-size:1
 <div class="gallery" id="gallery3"></div>
 </div>
 
+<div class="card orange">
+<h3 class="card-title">مبادرات شبابية</h3>
+<label class="btn">+ اضف صور المبادرات
+<input type="file" id="file4" accept="image/*">
+</label>
+<p class="status" id="status4"></p>
+<div class="gallery" id="gallery4"></div>
+</div>
+
+<div class="card purple">
+<h3 class="card-title">حملات التوعية</h3>
+<label class="btn">+ اضف صور الحملات
+<input type="file" id="file5" accept="image/*">
+</label>
+<p class="status" id="status5"></p>
+<div class="gallery" id="gallery5"></div>
+</div>
+
+<div class="card">
+<h3 class="card-title">الأنشطة والفعاليات</h3>
+<label class="btn">+ اضف صور الأنشطة
+<input type="file" id="file6" accept="image/*">
+</label>
+<p class="status" id="status6"></p>
+<div class="gallery" id="gallery6"></div>
+</div>
+
+<div class="card red">
+<h3 class="card-title">خدمات المجتمع</h3>
+<label class="btn">+ اضف صور الخدمات
+<input type="file" id="file7" accept="image/*">
+</label>
+<p class="status" id="status7"></p>
+<div class="gallery" id="gallery7"></div>
+</div>
+
 </div>
 
 <footer>مؤسسة القيادات الشبابية لتنمية المجتمع - إدفو - أسوان - صعيد مصر<br>للتواصل عبر واتساب 01150844699</footer>
 
-<a class="whats-float" href="https://wa.me/201150844699?text=السلام%20عليكم%20عايز%20اتواصل%20مع%20المؤسسة" target="_blank">💬 تواصل معنا واتساب</a>
+<a class="whats-float" href="https://wa.me/201150844699?text=السلام%20عليكم%20عايز%20اتواصل%20مع%20المؤسسة" target="_blank">💬</a>
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
@@ -109,10 +154,7 @@ function setup(inputId, statusId, galleryId, folder){
         del.textContent = '✕';
         del.onclick = async () => {
           if(!confirm('تحذف الصورة دي؟')) return;
-          try{
-            await deleteObject(item);
-            load();
-          }catch(e){ alert('مش قادر احذف الصورة'); }
+          try{ await deleteObject(item); load(); }catch(e){ alert('مش قادر احذف الصورة'); }
         };
         box.appendChild(img);
         box.appendChild(del);
@@ -138,6 +180,10 @@ function setup(inputId, statusId, galleryId, folder){
 setup('file1','status1','gallery1','kafila');
 setup('file2','status2','gallery2','waey');
 setup('file3','status3','gallery3','tanmya');
+setup('file4','status4','gallery4','mobadarat');
+setup('file5','status5','gallery5','hamalat');
+setup('file6','status6','gallery6','ansheta');
+setup('file7','status7','gallery7','khadamat');
 </script>
 </body>
 </html>
