@@ -36,54 +36,96 @@
 <div style="margin:12px 10px; background:#fff; border-radius:18px; padding:12px; border:3px solid #000;"><h2 style="text-align:center; background:#000; color:#fbbf24; padding:14px; border-radius:12px; font-weight:900;">🕋 ضيوف الرحمن</h2><div class="text-center mt-3"><label for="hajjUpload" style="background:#000; color:#fbbf24; padding:10px 20px; border-radius:25px; cursor:pointer; font-weight:900; display:inline-block; border:1px solid #fbbf24;">+ اضف صور ضيوف الرحمن</label><input type="file" id="hajjUpload" multiple accept="image/*" style="display:none;"></div><div id="hajjGrid" style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:12px;"></div></div>
 
 <footer class="bg-green-900 text-white text-center py-4 text-sm">© مؤسسة القيادات الشبابية - إدفو</footer>
+<p id="status" style="text-align:center; color:#065f46; font-weight:900; padding:10px;">جاري تحميل الصور...</p>
 
-<script>
-function getSaved(gridId){
-  try{ return JSON.parse(localStorage.getItem(gridId) || "[]"); }catch(e){ return []; }
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getFirestore, collection, addDoc, deleteDoc, doc, onSnapshot, query, orderBy, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+// ▼▼▼ حط هنا بيانات مشروعك من فايربيز ▼▼▼
+const firebaseConfig = {
+  apiKey: "حط هنا الـ apiKey",
+  authDomain: "edfu-mussasa-2026.firebaseapp.com",
+  projectId: "edfu-mussasa-2026",
+  storageBucket: "edfu-mussasa-2026.appspot.com",
+  messagingSenderId: "حط هنا",
+  appId: "حط هنا"
+};
+// ▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+const colRef = collection(db, "site_images");
+
+function compressImage(file){
+  return new Promise((resolve)=>{
+    const reader = new FileReader();
+    reader.onload = (e)=>{
+      const img = new Image();
+      img.onload = ()=>{
+        const canvas = document.createElement('canvas');
+        let w = img.width, h = img.height;
+        const max = 800;
+        if(w > max){ h = h * max / w; w = max; }
+        if(h > max){ w = w * max / h; h = max; }
+        canvas.width = w; canvas.height = h;
+        canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+        resolve(canvas.toDataURL('image/jpeg', 0.65));
+      };
+      img.src = e.target.result;
+    };
+    reader.readAsDataURL(file);
+  });
 }
-function saveGrid(gridId){
+
+function addImageToGrid(gridId, src, docId){
   const grid = document.getElementById(gridId);
-  const imgs = [...grid.querySelectorAll('img')].map(i=>i.src);
-  localStorage.setItem(gridId, JSON.stringify(imgs));
-}
-function addImageToGrid(gridId, src, save=true){
-  const grid = document.getElementById(gridId);
+  if(!grid) return;
   const wrap = document.createElement('div');
-  wrap.className="img-wrap";
+  wrap.className = "img-wrap";
   const img = document.createElement('img');
   img.src = src;
   const del = document.createElement('button');
-  del.className="del-btn";
-  del.innerText="✕ حذف";
-  del.onclick = function(){
+  del.className = "del-btn";
+  del.innerText = "✕ حذف";
+  del.onclick = async function(){
     if(confirm('تحذف الصورة؟')){
+      if(docId){ await deleteDoc(doc(db, "site_images", docId)); }
       wrap.remove();
-      saveGrid(gridId);
     }
   };
   wrap.appendChild(img);
   wrap.appendChild(del);
   grid.appendChild(wrap);
-  if(save) saveGrid(gridId);
 }
+
 function setupUploader(inputId, gridId){
   const input = document.getElementById(inputId);
-  input.addEventListener('change', function(e){
+  input.addEventListener('change', async function(e){
+    document.getElementById('status').innerText = "جاري رفع الصور... استنى شوية";
     for(let file of e.target.files){
-      const reader = new FileReader();
-      reader.onload = function(ev){
-        addImageToGrid(gridId, ev.target.result, true);
-      }
-      reader.readAsDataURL(file);
+      const compressed = await compressImage(file);
+      await addDoc(colRef, { section: gridId, data: compressed, createdAt: serverTimestamp() });
     }
-    input.value="";
+    input.value = "";
+    document.getElementById('status').innerText = "تم الحفظ ✅";
   });
-  // تحميل المحفوظ
-  getSaved(gridId).forEach(src=>addImageToGrid(gridId, src, false));
 }
+
 ['qafilaGrid','waeyGrid','elmGrid','shababGrid','tamreedGrid','huffazGrid','octoberGrid','hajjGrid'].forEach(id=>{
-  const inputId = id.replace('Grid','Upload');
-  setupUploader(inputId, id);
+  setupUploader(id.replace('Grid','Upload'), id);
+});
+
+// تحميل لحظي من قاعدة البيانات
+onSnapshot(query(colRef, orderBy("createdAt","asc")), (snap)=>{
+  ['qafilaGrid','waeyGrid','elmGrid','shababGrid','tamreedGrid','huffazGrid','octoberGrid','hajjGrid'].forEach(id=>{
+    document.getElementById(id).innerHTML = "";
+  });
+  snap.forEach(d=>{
+    const data = d.data();
+    if(data.section && data.data) addImageToGrid(data.section, data.data, d.id);
+  });
+  document.getElementById('status').innerText = "تم تحميل الصور ✅ - هتفضل ثابتة على كل الموبايلات";
 });
 </script>
 </body>
