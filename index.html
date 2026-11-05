@@ -3,130 +3,82 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>مؤسسة القيادات الشبابية</title>
-<script src="https://cdn.tailwindcss.com"></script>
+<title>مؤسسة ادفو 2026</title>
 <style>
-.img-wrap{position:relative;}
-.img-wrap img{width:100%; height:300px; object-fit:cover; border-radius:16px; border:2px solid #ddd; display:block;}
-.del-btn{position:absolute; top:8px; left:8px; background:#dc2626; color:white; border:none; padding:6px 14px; border-radius:20px; font-weight:900; cursor:pointer; font-size:13px;}
+body{font-family:sans-serif;background:#f5f5f5;text-align:center;padding:20px}
+h1{color:#1a5c2a}
+.box{background:white;padding:20px;border-radius:15px;max-width:500px;margin:auto;box-shadow:0 2px 10px rgba(0,0,0,.1)}
+button{background:#1a5c2a;color:white;border:none;padding:12px 25px;border-radius:10px;font-size:16px;cursor:pointer;margin:10px}
+input{margin:15px}
+#gallery{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:20px}
+#gallery img{width:150px;height:150px;object-fit:cover;border-radius:10px}
+#status{color:#1a5c2a;margin:10px}
 </style>
 </head>
-<body class="bg-gray-50">
-
-<img src="banner.jpg" style="width:100%; display:block;">
-<div class="bg-green-800 text-white text-center py-3">
-<h1 class="text-xl font-black">مؤسسة القيادات الشبابية</h1>
-<p class="text-xs">المشهرة برقم 1833 لسنة 2026 - إدفو</p>
+<body>
+<h1>مؤسسة ادفو 2026</h1>
+<div class="box">
+<p>ارفع صور المؤسسة هنا</p>
+<input type="file" id="fileInput" accept="image/*">
+<br>
+<button id="uploadBtn">رفع الصورة</button>
+<p id="status"></p>
 </div>
-
-<div style="margin:12px 10px; background:#fff; border-radius:18px; padding:12px; border:2px solid #1e3a8a;"><h2 style="text-align:center; background:#1e3a8a; color:white; padding:12px; border-radius:12px; font-weight:900;">القافلة الطبية</h2><div class="text-center mt-3"><label for="qafilaUpload" style="background:#1e3a8a; color:white; padding:10px 20px; border-radius:25px; cursor:pointer; font-weight:900; display:inline-block;">+ اضف صور القافلة</label><input type="file" id="qafilaUpload" multiple accept="image/*" style="display:none;"></div><div id="qafilaGrid" style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:12px;"></div></div>
-
-<div style="margin:12px 10px; background:#fff; border-radius:18px; padding:12px; border:2px solid #b91c1c;"><h2 style="text-align:center; background:#b91c1c; color:white; padding:12px; border-radius:12px; font-weight:900;">الوعي نور</h2><div class="text-center mt-3"><label for="waeyUpload" style="background:#b91c1c; color:white; padding:10px 20px; border-radius:25px; cursor:pointer; font-weight:900; display:inline-block;">+ اضف صور الوعي نور</label><input type="file" id="waeyUpload" multiple accept="image/*" style="display:none;"></div><div id="waeyGrid" style="display:grid; grid-template-columns:1fr; gap:10px; margin-top:12px;"></div></div>
-
-<div style="margin:12px 10px; background:#fff; border-radius:18px; padding:12px; border:2px solid #065f46;"><h2 style="text-align:center; background:#065f46; color:white; padding:12px; border-radius:12px; font-weight:900;">مبادرة العلم نور</h2><div class="text-center mt-3"><label for="elmUpload" style="background:#065f46; color:white; padding:10px 20px; border-radius:25px; cursor:pointer; font-weight:900; display:inline-block;">+ اضف صور العلم نور</label><input type="file" id="elmUpload" multiple accept="image/*" style="display:none;"></div><div id="elmGrid" style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:12px;"></div></div>
-
-<div style="margin:12px 10px; background:#fff; border-radius:18px; padding:12px; border:2px solid #000;"><h2 style="text-align:center; background:#000; color:#fbbf24; padding:12px; border-radius:12px; font-weight:900;">شبابنا قوتنا</h2><div class="text-center mt-3"><label for="shababUpload" style="background:#000; color:#fbbf24; padding:10px 20px; border-radius:25px; cursor:pointer; font-weight:900; display:inline-block;">+ اضف صور شبابنا قوتنا</label><input type="file" id="shababUpload" multiple accept="image/*" style="display:none;"></div><div id="shababGrid" style="display:grid; grid-template-columns:1fr; gap:10px; margin-top:12px;"></div></div>
-
-<div style="margin:12px 10px; background:#fff; border-radius:18px; padding:12px; border:2px solid #1e3a8a;"><h2 style="text-align:center; background:#1e3a8a; color:white; padding:12px; border-radius:12px; font-weight:900;">🏥 التمريض المنزلي</h2><div class="text-center mt-3"><label for="tamreedUpload" style="background:#1e3a8a; color:white; padding:10px 20px; border-radius:25px; cursor:pointer; font-weight:900; display:inline-block;">+ اضف صور التمريض</label><input type="file" id="tamreedUpload" multiple accept="image/*" style="display:none;"></div><div id="tamreedGrid" style="display:grid; grid-template-columns:1fr; gap:10px; margin-top:12px;"></div></div>
-
-<div style="margin:12px 10px; background:#fff; border-radius:18px; padding:12px; border:2px solid #065f46;"><h2 style="text-align:center; background:#065f46; color:white; padding:12px; border-radius:12px; font-weight:900;">📖 حفظة كتاب الله</h2><div class="text-center mt-3"><label for="huffazUpload" style="background:#065f46; color:white; padding:10px 20px; border-radius:25px; cursor:pointer; font-weight:900; display:inline-block;">+ اضف صور حفظة كتاب الله</label><input type="file" id="huffazUpload" multiple accept="image/*" style="display:none;"></div><div id="huffazGrid" style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:12px;"></div></div>
-
-<div style="margin:12px 10px; background:#fff; border-radius:18px; padding:12px; border:3px solid #b91c1c;"><h2 style="text-align:center; background:linear-gradient(90deg,#000,#b91c1c,#000); color:white; padding:14px; border-radius:12px; font-weight:900;">🇪🇬 انتصارات اكتوبر</h2><div class="text-center mt-3"><label for="octoberUpload" style="background:#b91c1c; color:white; padding:10px 20px; border-radius:25px; cursor:pointer; font-weight:900; display:inline-block;">+ اضف صور انتصارات اكتوبر</label><input type="file" id="octoberUpload" multiple accept="image/*" style="display:none;"></div><div id="octoberGrid" style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:12px;"></div></div>
-
-<div style="margin:12px 10px; background:#fff; border-radius:18px; padding:12px; border:3px solid #000;"><h2 style="text-align:center; background:#000; color:#fbbf24; padding:14px; border-radius:12px; font-weight:900;">🕋 ضيوف الرحمن</h2><div class="text-center mt-3"><label for="hajjUpload" style="background:#000; color:#fbbf24; padding:10px 20px; border-radius:25px; cursor:pointer; font-weight:900; display:inline-block; border:1px solid #fbbf24;">+ اضف صور ضيوف الرحمن</label><input type="file" id="hajjUpload" multiple accept="image/*" style="display:none;"></div><div id="hajjGrid" style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:12px;"></div></div>
-
-<footer class="bg-green-900 text-white text-center py-4 text-sm">© مؤسسة القيادات الشبابية - إدفو</footer>
-<p id="status" style="text-align:center; color:#065f46; font-weight:900; padding:10px;">جاري تحميل الصور...</p>
+<div id="gallery"></div>
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import { getFirestore, collection, addDoc, deleteDoc, doc, onSnapshot, query, orderBy, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import { getStorage, ref, uploadBytes, getDownloadURL, listAll } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js";
 
-// ▼▼▼ حط هنا بيانات مشروعك من فايربيز ▼▼▼
 const firebaseConfig = {
-  apiKey: "حط هنا الـ apiKey",
-  authDomain: "edfu-mussasa-2026.firebaseapp.com",
-  projectId: "edfu-mussasa-2026",
-  storageBucket: "edfu-mussasa-2026.appspot.com",
-  messagingSenderId: "حط هنا",
-  appId: "حط هنا"
+  apiKey: "AIzaSyAuIh2OMchkJyGfJg5bf7qOG8_qq_fpRR4",
+  authDomain: "edfu-muasasa-2026-f5505.firebaseapp.com",
+  projectId: "edfu-muasasa-2026-f5505",
+  storageBucket: "edfu-muasasa-2026-f5505.firebasestorage.app",
+  messagingSenderId: "654252383649",
+  appId: "1:654252383649:web:2165cc2db078dcf0cf7fe0"
 };
-// ▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲
 
 const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
-const colRef = collection(db, "site_images");
+const storage = getStorage(app);
 
-function compressImage(file){
-  return new Promise((resolve)=>{
-    const reader = new FileReader();
-    reader.onload = (e)=>{
-      const img = new Image();
-      img.onload = ()=>{
-        const canvas = document.createElement('canvas');
-        let w = img.width, h = img.height;
-        const max = 800;
-        if(w > max){ h = h * max / w; w = max; }
-        if(h > max){ w = w * max / h; h = max; }
-        canvas.width = w; canvas.height = h;
-        canvas.getContext('2d').drawImage(img, 0, 0, w, h);
-        resolve(canvas.toDataURL('image/jpeg', 0.65));
-      };
-      img.src = e.target.result;
-    };
-    reader.readAsDataURL(file);
-  });
-}
+const fileInput = document.getElementById('fileInput');
+const uploadBtn = document.getElementById('uploadBtn');
+const status = document.getElementById('status');
+const gallery = document.getElementById('gallery');
 
-function addImageToGrid(gridId, src, docId){
-  const grid = document.getElementById(gridId);
-  if(!grid) return;
-  const wrap = document.createElement('div');
-  wrap.className = "img-wrap";
-  const img = document.createElement('img');
-  img.src = src;
-  const del = document.createElement('button');
-  del.className = "del-btn";
-  del.innerText = "✕ حذف";
-  del.onclick = async function(){
-    if(confirm('تحذف الصورة؟')){
-      if(docId){ await deleteDoc(doc(db, "site_images", docId)); }
-      wrap.remove();
+async function loadImages(){
+  gallery.innerHTML = "";
+  try{
+    const listRef = ref(storage, 'images');
+    const res = await listAll(listRef);
+    for(const item of res.items){
+      const url = await getDownloadURL(item);
+      const img = document.createElement('img');
+      img.src = url;
+      gallery.appendChild(img);
     }
-  };
-  wrap.appendChild(img);
-  wrap.appendChild(del);
-  grid.appendChild(wrap);
+  }catch(e){ console.log(e); }
 }
 
-function setupUploader(inputId, gridId){
-  const input = document.getElementById(inputId);
-  input.addEventListener('change', async function(e){
-    document.getElementById('status').innerText = "جاري رفع الصور... استنى شوية";
-    for(let file of e.target.files){
-      const compressed = await compressImage(file);
-      await addDoc(colRef, { section: gridId, data: compressed, createdAt: serverTimestamp() });
-    }
-    input.value = "";
-    document.getElementById('status').innerText = "تم الحفظ ✅";
-  });
-}
+uploadBtn.onclick = async () => {
+  const file = fileInput.files[0];
+  if(!file){ status.textContent = "اختار صورة الاول"; return; }
+  status.textContent = "جاري الرفع... استنى";
+  try{
+    const name = Date.now() + "_" + file.name;
+    const storageRef = ref(storage, 'images/' + name);
+    await uploadBytes(storageRef, file);
+    status.textContent = "تم الرفع بنجاح ✅";
+    fileInput.value = "";
+    loadImages();
+  }catch(e){
+    status.textContent = "في مشكلة في الرفع، اتأكد ان القواعد مفتوحة";
+    console.log(e);
+  }
+};
 
-['qafilaGrid','waeyGrid','elmGrid','shababGrid','tamreedGrid','huffazGrid','octoberGrid','hajjGrid'].forEach(id=>{
-  setupUploader(id.replace('Grid','Upload'), id);
-});
-
-// تحميل لحظي من قاعدة البيانات
-onSnapshot(query(colRef, orderBy("createdAt","asc")), (snap)=>{
-  ['qafilaGrid','waeyGrid','elmGrid','shababGrid','tamreedGrid','huffazGrid','octoberGrid','hajjGrid'].forEach(id=>{
-    document.getElementById(id).innerHTML = "";
-  });
-  snap.forEach(d=>{
-    const data = d.data();
-    if(data.section && data.data) addImageToGrid(data.section, data.data, d.id);
-  });
-  document.getElementById('status').innerText = "تم تحميل الصور ✅ - هتفضل ثابتة على كل الموبايلات";
-});
+loadImages();
 </script>
 </body>
 </html>
