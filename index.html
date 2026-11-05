@@ -3,53 +3,80 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>مؤسسة ادفو 2026</title>
+<title>مؤسسة القيادات الشبابية لتنمية المجتمع</title>
 <style>
 *{box-sizing:border-box}
-body{margin:0;font-family:sans-serif;background:#eef5ef}
-header{background:linear-gradient(135deg,#0f5c2e,#1a8a44);color:white;padding:35px 15px;text-align:center;border-radius:0 0 30px 30px;box-shadow:0 5px 20px rgba(0,0,0,.2)}
-header h1{margin:0;font-size:32px}
-header p{opacity:.9;margin:10px 0 0}
-.container{max-width:900px;margin:-20px auto 30px;padding:0 15px}
-.upload-card{background:white;padding:25px;border-radius:20px;text-align:center;box-shadow:0 5px 20px rgba(0,0,0,.1)}
-.upload-card h2{margin:0 0 15px;color:#0f5c2e}
-.file-wrap{border:2px dashed #1a8a44;border-radius:15px;padding:20px;margin:15px 0;background:#f7fdf8}
-input[type=file]{font-size:15px}
-.btn{background:linear-gradient(135deg,#0f5c2e,#1a8a44);color:white;border:none;padding:14px 35px;border-radius:50px;font-size:18px;font-weight:bold;cursor:pointer;box-shadow:0 4px 12px rgba(26,138,68,.4)}
-.btn:active{transform:scale(.97)}
-#status{color:#0f5c2e;font-weight:bold;margin-top:15px;min-height:20px}
-.gallery-title{text-align:center;color:#0f5c2e;margin:30px 0 15px;font-size:22px}
-#gallery{display:grid;grid-template-columns:repeat(2,1fr);gap:15px}
-#gallery img{width:100%;height:180px;object-fit:cover;border-radius:18px;box-shadow:0 3px 12px rgba(0,0,0,.15);background:white}
-@media(min-width:600px){ #gallery{grid-template-columns:repeat(3,1fr)} #gallery img{height:200px} }
-footer{text-align:center;color:#888;padding:20px;font-size:13px}
+body{margin:0;font-family:sans-serif;background:#f2f2f2;padding-bottom:80px}
+.header-img{width:100%;display:block}
+.green-bar{background:#0f6b2f;color:white;text-align:center;padding:18px 10px}
+.green-bar h2{margin:0;font-size:24px;font-weight:bold}
+.green-bar p{margin:5px 0 0;font-size:15px}
+.container{padding:12px;max-width:600px;margin:auto}
+.card{background:white;border:2px solid #1e3a8a;border-radius:18px;padding:15px;margin-bottom:15px;text-align:center}
+.card.red{border-color:#c62828}
+.card-title{background:#1e3a8a;color:white;padding:14px;border-radius:12px;font-size:22px;font-weight:bold;margin:0 0 15px}
+.card.red .card-title{background:#c62828}
+.btn{background:#1e3a8a;color:white;border:none;padding:13px 25px;border-radius:50px;font-size:18px;font-weight:bold;cursor:pointer;display:inline-block}
+.card.red .btn{background:#c62828}
+input[type=file]{display:none}
+.status{color:#0f6b2f;font-weight:bold;margin-top:10px;min-height:20px}
+.gallery{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:15px}
+.img-box{position:relative;width:48%}
+.img-box img{width:100%;height:140px;object-fit:cover;border-radius:12px;display:block}
+.del-btn{position:absolute;top:5px;left:5px;background:#d32f2f;color:white;border:none;width:30px;height:30px;border-radius:50%;font-size:16px;cursor:pointer}
+.whats-float{position:fixed;bottom:15px;right:15px;left:15px;background:#25D366;color:white;text-align:center;padding:15px;border-radius:50px;font-size:19px;font-weight:bold;text-decoration:none;box-shadow:0 5px 15px rgba(0,0,0,.3);z-index:100}
+.whats-top{background:#25D366;color:white;display:inline-block;padding:12px 25px;border-radius:50px;text-decoration:none;font-weight:bold;font-size:17px;margin-top:10px}
+footer{background:#0f6b2f;color:white;text-align:center;padding:15px;font-size:14px;margin-top:10px}
 </style>
 </head>
 <body>
-<header>
-<h1>🌿 مؤسسة ادفو 2026</h1>
-<p>معرض صور المؤسسة - ارفع وشارك اجمل اللحظات</p>
-</header>
+
+<img src="banner.jpg" class="header-img">
+
+<div class="green-bar">
+<h2>مؤسسة القيادات الشبابية</h2>
+<p>المشهرة برقم 1833 لسنة 2026 - إدفو</p>
+<a class="whats-top" href="https://wa.me/201150844699?text=السلام%20عليكم%20عايز%20اتواصل%20مع%20المؤسسة" target="_blank">💬 تواصل واتساب</a>
+</div>
 
 <div class="container">
-<div class="upload-card">
-<h2>ارفع صور المؤسسة هنا</h2>
-<div class="file-wrap">
-<input type="file" id="fileInput" accept="image/*">
-</div>
-<button class="btn" id="uploadBtn">📸 رفع الصورة</button>
-<p id="status"></p>
+
+<div class="card">
+<h3 class="card-title">القافلة الطبية</h3>
+<label class="btn">+ اضف صور القافلة
+<input type="file" id="file1" accept="image/*">
+</label>
+<p class="status" id="status1"></p>
+<div class="gallery" id="gallery1"></div>
 </div>
 
-<h3 class="gallery-title">📷 صور المؤسسة</h3>
-<div id="gallery"></div>
+<div class="card red">
+<h3 class="card-title">الوعي نور</h3>
+<label class="btn">+ اضف صور الوعي نور
+<input type="file" id="file2" accept="image/*">
+</label>
+<p class="status" id="status2"></p>
+<div class="gallery" id="gallery2"></div>
 </div>
 
-<footer>مؤسسة ادفو 2026 - جميع الحقوق محفوظة</footer>
+<div class="card">
+<h3 class="card-title">تنمية المجتمع</h3>
+<label class="btn">+ اضف صور تنمية المجتمع
+<input type="file" id="file3" accept="image/*">
+</label>
+<p class="status" id="status3"></p>
+<div class="gallery" id="gallery3"></div>
+</div>
+
+</div>
+
+<footer>مؤسسة القيادات الشبابية لتنمية المجتمع - إدفو - أسوان - صعيد مصر<br>للتواصل عبر واتساب 01150844699</footer>
+
+<a class="whats-float" href="https://wa.me/201150844699?text=السلام%20عليكم%20عايز%20اتواصل%20مع%20المؤسسة" target="_blank">💬 تواصل معنا واتساب</a>
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import { getStorage, ref, uploadBytes, getDownloadURL, listAll } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js";
+import { getStorage, ref, uploadBytes, getDownloadURL, listAll, deleteObject } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyAuIh2OMchkJyGfJg5bf7qOG8_qq_fpRR4",
@@ -62,43 +89,55 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const storage = getStorage(app);
-const fileInput = document.getElementById('fileInput');
-const uploadBtn = document.getElementById('uploadBtn');
-const status = document.getElementById('status');
-const gallery = document.getElementById('gallery');
 
-async function loadImages(){
-  gallery.innerHTML = "";
-  try{
-    const listRef = ref(storage, 'images');
-    const res = await listAll(listRef);
-    for(const item of res.items){
-      const url = await getDownloadURL(item);
-      const img = document.createElement('img');
-      img.src = url;
-      gallery.appendChild(img);
-    }
-    if(res.items.length === 0){ gallery.innerHTML = "<p style='grid-column:1/-1;text-align:center;color:#888'>لسه مفيش صور، ارفع اول صورة</p>"; }
-  }catch(e){ console.log(e); }
+function setup(inputId, statusId, galleryId, folder){
+  const input = document.getElementById(inputId);
+  const status = document.getElementById(statusId);
+  const gallery = document.getElementById(galleryId);
+  async function load(){
+    gallery.innerHTML = "";
+    try{
+      const r = await listAll(ref(storage, folder));
+      for(const item of r.items){
+        const url = await getDownloadURL(item);
+        const box = document.createElement('div');
+        box.className = 'img-box';
+        const img = document.createElement('img');
+        img.src = url;
+        const del = document.createElement('button');
+        del.className = 'del-btn';
+        del.textContent = '✕';
+        del.onclick = async () => {
+          if(!confirm('تحذف الصورة دي؟')) return;
+          try{
+            await deleteObject(item);
+            load();
+          }catch(e){ alert('مش قادر احذف الصورة'); }
+        };
+        box.appendChild(img);
+        box.appendChild(del);
+        gallery.appendChild(box);
+      }
+    }catch(e){ console.log(e); }
+  }
+  input.onchange = async () => {
+    const file = input.files[0];
+    if(!file) return;
+    status.textContent = "جاري الرفع... استنى";
+    try{
+      const name = Date.now() + "_" + file.name;
+      await uploadBytes(ref(storage, folder + '/' + name), file);
+      status.textContent = "تم الرفع بنجاح ✅";
+      input.value = "";
+      load();
+    }catch(e){ status.textContent = "في مشكلة في الرفع"; }
+  };
+  load();
 }
 
-uploadBtn.onclick = async () => {
-  const file = fileInput.files[0];
-  if(!file){ status.textContent = "اختار صورة الاول"; return; }
-  status.textContent = "جاري الرفع... استنى";
-  try{
-    const name = Date.now() + "_" + file.name;
-    const storageRef = ref(storage, 'images/' + name);
-    await uploadBytes(storageRef, file);
-    status.textContent = "تم الرفع بنجاح ✅";
-    fileInput.value = "";
-    loadImages();
-  }catch(e){
-    status.textContent = "في مشكلة في الرفع، اتأكد ان القواعد مفتوحة";
-    console.log(e);
-  }
-};
-loadImages();
+setup('file1','status1','gallery1','kafila');
+setup('file2','status2','gallery2','waey');
+setup('file3','status3','gallery3','tanmya');
 </script>
 </body>
 </html>
