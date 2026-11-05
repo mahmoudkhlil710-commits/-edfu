@@ -106,30 +106,31 @@ function compressImage(file){
   });
 }
 
+
 async function upload(cat){
-  const input = document.createElement('input');
-  input.type='file'; input.accept='image/*';
-  input.onchange = async ()=>{
-    const file = input.files[0];
-    if(!file) return;
-    document.getElementById('status').innerText = 'جاري ضغط ورفع الصورة... استنى ثواني';
-    const compressed = await compressImage(file);
-    const name = Date.now() + '.jpg';
-    const ref = storage.ref('images/'+cat+'/'+name);
-    await ref.put(compressed);
-    const url = await ref.getDownloadURL();
-    await db.ref('images/'+cat).push(url);
-    document.getElementById('status').innerText = 'تم الرفع بنجاح ✅';
-    setTimeout(()=>{ document.getElementById('status').innerText=''; },2000);
-  };
-  input.click();
+const input = document.createElement('input');
+input.type='file'; input.accept='image/*';
+input.onchange = async ()=>{
+const file = input.files[0];
+if(!file) return;
+document.getElementById('status').innerText = 'جاري ضغط ورفع الصورة...';
+const compressed = await compressImage(file);
+const dataUrl = await new Promise(function(resolve){
+const r = new FileReader();
+r.onload = function(){ resolve(r.result); };
+r.readAsDataURL(compressed);
+});
+await db.ref('images/'+cat).push(dataUrl);
+document.getElementById('status').innerText = 'تم الرفع بنجاح ✅';
+setTimeout(()=>{ document.getElementById('status').innerText = ''; }, 3000);
+};
+input.click();
 }
 
 function delImg(cat, key, url){
-  if(!confirm('تحذف الصورة دي؟')) return;
-  db.ref('images/'+cat+'/'+key).remove();
+if(!confirm('تحذف الصورة دي؟')) return;
+db.ref('images/'+cat+'/'+key).remove();
 }
-
 function render(){
   const box = document.getElementById('sections');
   box.innerHTML='';
