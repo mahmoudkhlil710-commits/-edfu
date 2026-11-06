@@ -3,159 +3,141 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>مؤسسة القيادات الشبابية - إدفو</title>
+<title>إدفو - معرض الصور</title>
 <style>
-*{box-sizing:border-box;margin:0;padding:0;font-family:'Segoe UI',Tahoma,sans-serif}
-body{background:#f5f5f5}
-.top{background:#0a5c36;color:#fff;padding:10px;text-align:center}
-.top a{color:#fff;text-decoration:none;font-weight:bold;font-size:18px}
-.header{background:#0a5c36;color:#fff;text-align:center;padding:25px 10px;border-bottom:5px solid #d4af37}
-.header h1{font-size:28px;margin-bottom:5px}
-.header p{font-size:15px}
-.btn{display:inline-block;background:#25D366;color:#fff;padding:12px 30px;border-radius:30px;text-decoration:none;font-weight:bold;margin-top:12px}
-.admin-box{background:#fff3cd;border:2px dashed #e6a800;padding:15px;text-align:center;margin:15px}
-.admin-box input{padding:10px;width:180px;border-radius:8px;border:1px solid #ccc;text-align:center}
-.admin-box button{padding:10px 20px;background:#0a5c36;color:#fff;border:none;border-radius:8px;cursor:pointer}
-.section{background:#fff;margin:15px;border-radius:15px;overflow:hidden;box-shadow:0 2px 8px #0001}
-.section h2{background:#1e3a8a;color:#fff;text-align:center;padding:14px;font-size:20px}
-.add-btn{display:block;margin:12px auto;padding:10px 20px;background:#1e3a8a;color:#fff;border:none;border-radius:20px;cursor:pointer;font-size:15px}
-.gallery{display:flex;flex-wrap:wrap;gap:10px;padding:10px;justify-content:center}
-.gallery img{width:150px;height:120px;object-fit:cover;border-radius:10px}
-.img-wrap{position:relative}
-.del{position:absolute;top:2px;left:2px;background:red;color:#fff;border:none;border-radius:50%;width:24px;height:24px;cursor:pointer}
-#status{text-align:center;color:#0a5c36;font-weight:bold;padding:5px}
+*{box-sizing:border-box}
+body{font-family:system-ui,Tahoma,sans-serif;background:#f4f4f4;margin:0;padding:0}
+header{background:#0b6e4f;color:#fff;padding:18px;text-align:center}
+header h1{margin:0;font-size:24px}
+header p{margin:5px 0 0;opacity:.9}
+.wrap{max-width:1000px;margin:auto;padding:15px}
+.topbar{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin:10px 0}
+.topbar button{border:0;padding:9px 14px;border-radius:20px;background:#fff;cursor:pointer}
+.topbar button.active{background:#0b6e4f;color:#fff}
+#loginBox,#adminBox{background:#fff;padding:15px;border-radius:12px;margin:12px 0}
+input,select{width:100%;padding:11px;border:1px solid #ddd;border-radius:10px;margin:6px 0;font-size:16px}
+.btn{background:#0b6e4f;color:#fff;border:0;padding:12px;border-radius:10px;width:100%;font-size:16px;cursor:pointer}
+.btn2{background:#c0392b;color:#fff;border:0;padding:8px 12px;border-radius:8px;cursor:pointer}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px}
+.card{background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.08)}
+.card img{width:100%;height:160px;object-fit:cover;display:block}
+.card .info{padding:10px}
+.card .info b{display:block;font-size:14px}
+.card .info span{font-size:12px;color:#777}
+.card .info button{margin-top:8px}
 </style>
 </head>
 <body>
+<header>
+<h1>إدفو</h1>
+<p>معرض صور المجتمع والمبادرات</p>
+</header>
 
-<div class="top"><a href="https://wa.me/201150844699">التواصل عبر واتساب 01150844699 💬</a></div>
+<div class="wrap">
+<div class="topbar" id="cats"></div>
 
-<div class="header"><img src="banner.jpg" style="width:100%;border-radius:10px;">
-<h1>مؤسسة القيادات الشبابية</h1>
-<p>المشهرة برقم 1833 لسنة 2026 - إدفو - أسوان - صعيد مصر</p>
-<a class="btn" href="https://wa.me/201150844699">💬 تواصل واتساب</a>
+<div id="loginBox">
+<h3 style="margin:0 0 5px">دخول الأدمن</h3>
+<input id="pass" type="password" placeholder="اكتب كلمة السر">
+<button class="btn" onclick="login()">دخول</button>
 </div>
 
-<div class="admin-box" id="loginBox">
-<input type="password" id="pass" placeholder="كلمة سر صاحب الموقع">
-<button onclick="login()">دخول</button>
+<div id="adminBox" style="display:none">
+<h3 style="margin:0">لوحة التحكم - أهلا بيك يا أدمن</h3>
+<input id="title" placeholder="عنوان الصورة">
+<select id="cat">
+<option>المجتمع</option>
+<option>مبادرات شبابية</option>
+<option>حملات توعية</option>
+<option>الاحتفالات والفعاليات</option>
+<option>كفاءات</option>
+<option>خدمات</option>
+</select>
+<input id="file" type="file" accept="image/*">
+<button class="btn" onclick="uploadImage()">رفع الصورة</button>
+<button class="btn" style="background:#777;margin-top:8px" onclick="logout()">تسجيل خروج</button>
 </div>
 
-<div class="admin-box" id="logoutBox" style="display:none">
-<span>✅ تم الدخول، تقدر دلوقتي ترفع وتحذف براحتك</span><br><br>
-<button onclick="logout()" style="background:#c00">خروج</button>
+<div id="gallery" class="grid"></div>
+<p id="empty" style="text-align:center;color:#888;display:none">لسه مفيش صور في القسم ده</p>
 </div>
-
-<div id="status"></div>
-
-<div id="sections"></div>
-
-<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-storage-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
 
 <script>
-const firebaseConfig = {
-      
-  apiKey: "AIzaSyAuIh2OMchkJyGfJg5bf7qOG8_qq_fpRR4",
-  authDomain: "edfu-muasasa-2026-f5505.firebaseapp.com",
-  databaseURL: "https://edfu-muasasa-2026-f5505-default-rtdb.firebaseio.com",
-  projectId: "edfu-muasasa-2026-f5505",
-  storageBucket: "edfu-muasasa-2026-f5505.firebasestorage.app",
-  messagingSenderId: "654252383649",
-  appId: "1:654252383649:web:2165cc2db078dcf0cf7fe0",
-  measurementId: "G-FJ4KVVWG73"
-};
-firebase.initializeApp(firebaseConfig);
-const storage = firebase.storage();
-const db = firebase.database();
-
 const ADMIN_PASS = "2026";
 let isAdmin = false;
-const cats = ["القافلة الطبية","الوعي نور","تنمية المجتمع","مبادرات شبابية","حملات التوعية","الأنشطة والفعاليات","خدمات المجتمع"];
+let currentCat = "الكل";
+let images = JSON.parse(localStorage.getItem("edfu_images") || "[]");
+const allCats = ["الكل","المجتمع","مبادرات شبابية","حملات توعية","الاحتفالات والفعاليات","كفاءات","خدمات"];
 
+function renderCats(){
+  document.getElementById("cats").innerHTML = allCats.map(c=>`<button class="${c===currentCat?'active':''}" onclick="setCat('${c}')">${c}</button>`).join("");
+}
+function setCat(c){ currentCat=c; renderCats(); render(); }
 function login(){
-  if(document.getElementById('pass').value === ADMIN_PASS){
+  let v = document.getElementById("pass").value.trim();
+  v = v.replace(/[٠-٩]/g, d=>"0123456789"["٠١٢٣٤٥٦٧٨٩".indexOf(d)]);
+  if(v === ADMIN_PASS){
     isAdmin = true;
-    document.getElementById('loginBox').style.display='none';
-    document.getElementById('logoutBox').style.display='block';
+    document.getElementById("loginBox").style.display="none";
+    document.getElementById("adminBox").style.display="block";
     render();
-  } else { alert('كلمة السر غلط'); }
+  } else {
+    alert("كلمة السر غلط");
+  }
 }
 function logout(){ isAdmin=false; location.reload(); }
-
-// --- ده الجديد: ضغط الصورة قبل الرفع ---
+function render(){
+  let list = images.filter(x=> currentCat==="الكل" || x.cat===currentCat);
+  document.getElementById("empty").style.display = list.length?"none":"block";
+  document.getElementById("gallery").innerHTML = list.map((x,i)=>{
+    let realIndex = images.indexOf(x);
+    return `<div class="card"><img src="${x.src}"><div class="info"><b>${x.title||"بدون عنوان"}</b><span>${x.cat}</span>${isAdmin?`<br><button class="btn2" onclick="delImage(${realIndex})">حذف</button>`:""}</div></div>`;
+  }).join("");
+}
+function delImage(i){
+  if(!confirm("تحذف الصورة دي؟")) return;
+  images.splice(i,1);
+  localStorage.setItem("edfu_images", JSON.stringify(images));
+  render();
+}
 function compressImage(file){
   return new Promise((resolve)=>{
     const reader = new FileReader();
     reader.onload = (e)=>{
       const img = new Image();
       img.onload = ()=>{
-        const canvas = document.createElement('canvas');
+        const canvas = document.createElement("canvas");
         let w = img.width, h = img.height;
         const max = 1000;
         if(w > max){ h = h * max / w; w = max; }
         if(h > max){ w = w * max / h; h = max; }
         canvas.width = w; canvas.height = h;
-        canvas.getContext('2d').drawImage(img,0,0,w,h);
-        canvas.toBlob((blob)=>{ resolve(blob); }, 'image/jpeg', 0.7);
+        canvas.getContext("2d").drawImage(img,0,0,w,h);
+        canvas.toBlob((blob)=>{ resolve(blob); }, "image/jpeg", 0.7);
       };
       img.src = e.target.result;
     };
     reader.readAsDataURL(file);
   });
 }
-
-
-async function upload(cat){
-const input = document.createElement('input');
-input.type='file'; input.accept='image/*';
-input.onchange = async ()=>{
-const file = input.files[0];
-if(!file) return;
-document.getElementById('status').innerText = 'جاري ضغط ورفع الصورة...';
-const compressed = await compressImage(file);
-const dataUrl = await new Promise(function(resolve){
-const r = new FileReader();
-r.onload = function(){ resolve(r.result); };
-r.readAsDataURL(compressed);
-      const base64 = dataUrl.split(',')[1];
-      const formData = new FormData();
-      formData.append("image", base64);
-      const res = await fetch("https://api.imgbb.com/1/upload?key=580eed74869803c869569f7f3ea10fbe", {
-        method: "POST",
-        body: formData
-      });
-      const result = await res.json();
-      const imageUrl = result.data.url;
-
-      await db.ref('images/'+cat).push(imageUrl);
-input.click();
+async function uploadImage(){
+  let file = document.getElementById("file").files[0];
+  let title = document.getElementById("title").value.trim();
+  let cat = document.getElementById("cat").value;
+  if(!file){ alert("اختار صورة الأول"); return; }
+  let blob = await compressImage(file);
+  let r = new FileReader();
+  r.onload = ()=>{
+    images.unshift({src:r.result, title:title, cat:cat});
+    localStorage.setItem("edfu_images", JSON.stringify(images));
+    document.getElementById("title").value="";
+    document.getElementById("file").value="";
+    alert("اترفعت بنجاح");
+    render();
+  };
+  r.readAsDataURL(blob);
 }
-
-function delImg(cat, key, url){
-if(!confirm('تحذف الصورة دي؟')) return;
-db.ref('images/'+cat+'/'+key).remove();
-}
-function render(){
-  const box = document.getElementById('sections');
-  box.innerHTML='';
-  cats.forEach(cat=>{
-    const div = document.createElement('div');
-    div.className='section';
-    div.innerHTML = `<h2>${cat}</h2>${isAdmin?`<button class="add-btn" onclick="upload('${cat}')">+ اضف صور ${cat}</button>`:''}<div class="gallery" id="g-${cat}"></div>`;
-    box.appendChild(div);
-    db.ref('images/'+cat).on('value', snap=>{
-      const g = document.getElementById('g-'+cat);
-      if(!g) return;
-      g.innerHTML='';
-      snap.forEach(child=>{
-        const url = child.val();
-        g.innerHTML += `<div class="img-wrap"><img src="${url}">${isAdmin?`<button class="del" onclick="delImg('${cat}','${child.key}')">✕</button>`:''}</div>`;
-      });
-    });
-  });
-}
+renderCats();
 render();
 </script>
 </body>
