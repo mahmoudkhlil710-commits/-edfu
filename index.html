@@ -97,23 +97,16 @@ function compressImage(file){
       img.onload = ()=>{
         const canvas = document.createElement("canvas");
         let w = img.width, h = img.height;
-        const max = 1000;
+        const max = 900;
         if(w > max){ h = h * max / w; w = max; }
         if(h > max){ w = w * max / h; h = max; }
         canvas.width = w; canvas.height = h;
         canvas.getContext("2d").drawImage(img,0,0,w,h);
-        canvas.toBlob((blob)=>{ resolve(blob); }, "image/jpeg", 0.7);
+        canvas.toBlob((blob)=>{ resolve(blob); }, "image/jpeg", 0.65);
       };
       img.src = e.target.result;
     };
     reader.readAsDataURL(file);
-  });
-}
-function blobToBase64(blob){
-  return new Promise((resolve)=>{
-    const r = new FileReader();
-    r.onload = ()=> resolve(r.result.split(",")[1]);
-    r.readAsDataURL(blob);
   });
 }
 async function uploadImage(){
@@ -124,12 +117,15 @@ async function uploadImage(){
   document.getElementById("status").textContent = "جار الرفع على ImgBB ... استنى شوية";
   try{
     let blob = await compressImage(file);
-    let base64 = await blobToBase64(blob);
     let form = new FormData();
-    form.append("image", base64);
-    let res = await fetch("https://api.imgbb.com/1/upload?key=" + IMGBB_KEY, {method:"POST", body:form});
+    form.append("key", IMGBB_KEY);
+    form.append("image", blob, "photo.jpg");
+    let res = await fetch("https://api.imgbb.com/1/upload", {method:"POST", body:form});
     let data = await res.json();
-    if(!data.success) throw new Error("فشل الرفع");
+    console.log(data);
+    if(!data.success){
+      throw new Error(data.error ? data.error.message : "ImgBB رفض الصورة");
+    }
     let url = data.data.url;
     images.unshift({src:url, title:title, cat:cat});
     localStorage.setItem("edfu_images", JSON.stringify(images));
@@ -138,7 +134,7 @@ async function uploadImage(){
     document.getElementById("status").textContent = "اترفعت بنجاح على ImgBB ✅";
     render();
   }catch(e){
-    document.getElementById("status").textContent = "حصل مشكلة في الرفع، جرب تاني";
+    document.getElementById("status").textContent = "مشكلة: " + e.message;
     alert("مشكلة في الرفع: " + e.message);
   }
 }
