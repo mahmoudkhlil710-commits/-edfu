@@ -23,7 +23,7 @@ button.gray{background:#eee;color:#222} button.red{background:#c0392b;color:#fff
 .card img{width:100%;height:150px;object-fit:cover;display:block}
 .card div{padding:10px}
 input,textarea,select{width:100%;padding:11px;border:1px solid #ddd;border-radius:10px;margin-bottom:10px;font-size:15px;background:#fff}
-.modal{position:fixed;inset:0;background:#0008;display:none;align-items:center;justify-content:center;padding:16px;z-index:99}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.7);display:none;align-items:center;justify-content:center;padding:16px;z-index:9999}
 .modal.open{display:flex} .modal .box{background:#fff;width:100%;max-width:560px;border-radius:16px;padding:18px;max-height:90vh;overflow:auto}
 .idcard{width:340px;max-width:100%;background:linear-gradient(135deg,#0b3d2e,#12805c);color:#fff;border-radius:16px;padding:16px;text-align:center;margin:auto}
 .idcard img{width:90px;height:90px;object-fit:cover;border-radius:50%;border:3px solid #fff}
@@ -50,13 +50,10 @@ footer{text-align:center;padding:20px;font-size:13px;color:#fff;background:#0b3d
 </div>
 
 <div class="container">
-<!-- الرئيسية - الاقسام القديمة -->
 <div id="home">
 <div class="section"><h2 style="text-align:center;color:#0b3d2e">آخر الأخبار</h2><div id="homeNews"></div></div>
 <div id="sections"></div>
 </div>
-
-<!-- لوحة التحكم -->
 <div id="adminSec" class="hidden">
 <div class="section"><h2>⚙️ لوحة تحكم الإدارة</h2>
 <p>📰 الأخبار: <b id="statNews">0</b> | 📸 الأنشطة: <b id="statGal">0</b> | 📁 الملفات: <b id="statFiles">0</b> | 👥 الأعضاء: <b id="statMembers">0</b></p><br>
@@ -65,21 +62,27 @@ footer{text-align:center;padding:20px;font-size:13px;color:#fff;background:#0b3d
 <button onclick="showSec('filesSec')">إدارة الملفات</button>
 <button onclick="showSec('cardSec')">إدارة الأعضاء</button>
 <button onclick="showSec('home')">إدارة أقسام الصور القديمة</button><br><br>
-<div id="oldSectionsAdmin"></div>
 </div>
 </div>
-
-<!-- الأخبار -->
 <div id="newsSec" class="hidden"><div class="section"><h2>📰 الأخبار والكتابة</h2><button class="adminOnly hidden" onclick="openModal('newsModal')">+ إضافة خبر جديد</button><div id="newsList" style="margin-top:12px"></div></div></div>
-
-<!-- معرض الأنشطة الجديد -->
 <div id="activitySec" class="hidden"><div class="section"><h2>📸 معرض الأنشطة</h2><button class="adminOnly hidden" onclick="openModal('galleryModal')">+ إضافة نشاط</button><div id="galleryList" class="grid" style="margin-top:12px"></div></div></div>
-
-<!-- الملفات -->
 <div id="filesSec" class="hidden"><div class="section"><h2>📁 مركز رفع الملفات</h2><p>ارفع مستندات، صور، PDF، وورد.</p><button class="adminOnly hidden" onclick="openModal('fileModal')">+ رفع ملف جديد</button><div id="filesList" style="margin-top:12px"></div></div></div>
-
-<!-- الكارنيه -->
 <div id="cardSec" class="hidden"><div class="section"><h2>🪪 نظام الكارنيه والباركود</h2>
 <input id="mName" placeholder="اسم العضو">
 <input id="mRole" placeholder="الدور / اللجنة - مثال: عضو - لجنة التنظيم">
-<input id="mId" placeholder="رقم العضوية - مثال: EDF
+<input id="mId" placeholder="رقم العضوية - مثال: EDFU-001">
+<input id="mPhone" placeholder="رقم التليفون">
+<label>صورة العضو</label><input type="file" id="mPhoto" accept="image/*">
+<button onclick="makeCard()">إصدار الكارنيه + باركود</button>
+<button class="gray adminOnly hidden" onclick="saveMember()">حفظ العضو في قاعدة الأعضاء</button>
+<div id="cardPreview" style="margin-top:16px"></div>
+<div id="membersList" style="margin-top:16px"></div>
+</div></div>
+</div>
+
+<footer>© مؤسسة القيادات الشبابية - إدفو</footer>
+
+<div class="modal" id="loginModal"><div class="box"><h2>دخول الأدمن</h2><input type="password" id="adminPass" placeholder="كلمة السر"><button onclick="login()">دخول</button><button class="gray" onclick="closeModal('loginModal')">إغلاق</button></div></div>
+<div class="modal" id="newsModal"><div class="box"><h2>خبر جديد</h2><input id="nTitle" placeholder="عنوان الخبر"><textarea id="nText" rows="4" placeholder="اكتب الخبر هنا..."></textarea><input type="file" id="nImg" accept="image/*"><button onclick="addNews()">نشر الخبر</button><button class="gray" onclick="closeModal('newsModal')">إلغاء</button></div></div>
+<div class="modal" id="galleryModal"><div class="box"><h2>نشاط جديد</h2><input id="gTitle" placeholder="اسم النشاط"><textarea id="gDesc" placeholder="وصف النشاط"></textarea><input type="file" id="gImg" accept="image/*"><button onclick="addGallery()">إضافة</button><button class="gray" onclick="closeModal('galleryModal')">إلغاء</button></div></div>
+<div class="modal
