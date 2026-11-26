@@ -5,14 +5,16 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>مؤسسة القيادات الشبابية - إدفو</title>
 <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.6/dist/JsBarcode.all.min.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;font-family:Tahoma,Arial,sans-serif}
 body{background:#f2f2f2;color:#222}
-header{background:#0b3d2e;color:#fff;padding:20px 14px;text-align:center;position:sticky;top:0;z-index:20}
+header{background:#0b3d2e;color:#fff;padding:20px 14px;text-align:center}
 header h1{font-size:25px} header p{font-size:14px;opacity:.9}
 .banner{background:#f5c518;color:#000;text-align:center;padding:11px;font-weight:bold}
 .banner img{width:100%;max-height:230px;object-fit:cover;display:block;margin-top:10px;border-radius:10px}
-.topbar{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;padding:10px;background:#fff;box-shadow:0 2px 8px #0001;position:sticky;top:76px;z-index:19}
+.topbar{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;padding:10px;background:#fff;box-shadow:0 2px 8px #0001}
 button{border:0;padding:10px 14px;border-radius:10px;cursor:pointer;font-weight:700;background:#0b3d2e;color:#fff;font-size:14px}
 button.gray{background:#eee;color:#222} button.red{background:#c0392b;color:#fff}
 .container{max-width:1000px;margin:auto;padding:12px}
@@ -22,7 +24,7 @@ button.gray{background:#eee;color:#222} button.red{background:#c0392b;color:#fff
 .card{border-radius:12px;overflow:hidden;box-shadow:0 2px 6px rgba(0,0,0,.1);background:#fff}
 .card img{width:100%;height:150px;object-fit:cover;display:block}
 .card div{padding:10px}
-input,textarea,select{width:100%;padding:11px;border:1px solid #ddd;border-radius:10px;margin-bottom:10px;font-size:15px;background:#fff}
+input,textarea{width:100%;padding:11px;border:1px solid #ddd;border-radius:10px;margin-bottom:10px;font-size:15px;background:#fff}
 .modal{position:fixed;inset:0;background:rgba(0,0,0,.7);display:none;align-items:center;justify-content:center;padding:16px;z-index:9999}
 .modal.open{display:flex} .modal .box{background:#fff;width:100%;max-width:560px;border-radius:16px;padding:18px;max-height:90vh;overflow:auto}
 .idcard{width:340px;max-width:100%;background:linear-gradient(135deg,#0b3d2e,#12805c);color:#fff;border-radius:16px;padding:16px;text-align:center;margin:auto}
@@ -51,38 +53,87 @@ footer{text-align:center;padding:20px;font-size:13px;color:#fff;background:#0b3d
 
 <div class="container">
 <div id="home">
-<div class="section"><h2 style="text-align:center;color:#0b3d2e">آخر الأخبار</h2><div id="homeNews"></div></div>
+<div class="section"><h2 style="text-align:center;color:#0b3d2e">آخر الأخبار</h2><div id="homeNews">لا توجد أخبار بعد</div></div>
 <div id="sections"></div>
 </div>
-<div id="adminSec" class="hidden">
-<div class="section"><h2>⚙️ لوحة تحكم الإدارة</h2>
-<p>📰 الأخبار: <b id="statNews">0</b> | 📸 الأنشطة: <b id="statGal">0</b> | 📁 الملفات: <b id="statFiles">0</b> | 👥 الأعضاء: <b id="statMembers">0</b></p><br>
-<button onclick="showSec('newsSec')">إدارة الأخبار</button>
-<button onclick="showSec('activitySec')">إدارة المعرض</button>
-<button onclick="showSec('filesSec')">إدارة الملفات</button>
-<button onclick="showSec('cardSec')">إدارة الأعضاء</button>
-<button onclick="showSec('home')">إدارة أقسام الصور القديمة</button><br><br>
-</div>
-</div>
-<div id="newsSec" class="hidden"><div class="section"><h2>📰 الأخبار والكتابة</h2><button class="adminOnly hidden" onclick="openModal('newsModal')">+ إضافة خبر جديد</button><div id="newsList" style="margin-top:12px"></div></div></div>
-<div id="activitySec" class="hidden"><div class="section"><h2>📸 معرض الأنشطة</h2><button class="adminOnly hidden" onclick="openModal('galleryModal')">+ إضافة نشاط</button><div id="galleryList" class="grid" style="margin-top:12px"></div></div></div>
-<div id="filesSec" class="hidden"><div class="section"><h2>📁 مركز رفع الملفات</h2><p>ارفع مستندات، صور، PDF، وورد.</p><button class="adminOnly hidden" onclick="openModal('fileModal')">+ رفع ملف جديد</button><div id="filesList" style="margin-top:12px"></div></div></div>
+<div id="adminSec" class="hidden"><div class="section"><h2>⚙️ لوحة تحكم الإدارة</h2><p>📰 الأخبار: <b id="statNews">0</b> | 📸 الأنشطة: <b id="statGal">0</b> | 📁 الملفات: <b id="statFiles">0</b> | 👥 الأعضاء: <b id="statMembers">0</b></p><br><button onclick="showSec('newsSec')">إدارة الأخبار</button><button onclick="showSec('activitySec')">إدارة المعرض</button><button onclick="showSec('filesSec')">إدارة الملفات</button><button onclick="showSec('cardSec')">إدارة الأعضاء</button><button onclick="showSec('home')">إدارة أقسام الصور القديمة</button></div></div>
+<div id="newsSec" class="hidden"><div class="section"><h2>📰 الأخبار والكتابة</h2><button class="adminOnly hidden" onclick="openModal('newsModal')">+ إضافة خبر جديد</button><div id="newsList" style="margin-top:12px">لا توجد أخبار بعد</div></div></div>
+<div id="activitySec" class="hidden"><div class="section"><h2>📸 معرض الأنشطة</h2><button class="adminOnly hidden" onclick="openModal('galleryModal')">+ إضافة نشاط</button><div id="galleryList" class="grid" style="margin-top:12px">لا توجد أنشطة</div></div></div>
+<div id="filesSec" class="hidden"><div class="section"><h2>📁 مركز رفع الملفات</h2><button class="adminOnly hidden" onclick="openModal('fileModal')">+ رفع ملف جديد</button><div id="filesList" style="margin-top:12px">لا توجد ملفات</div></div></div>
 <div id="cardSec" class="hidden"><div class="section"><h2>🪪 نظام الكارنيه والباركود</h2>
-<input id="mName" placeholder="اسم العضو">
-<input id="mRole" placeholder="الدور / اللجنة - مثال: عضو - لجنة التنظيم">
-<input id="mId" placeholder="رقم العضوية - مثال: EDFU-001">
-<input id="mPhone" placeholder="رقم التليفون">
-<label>صورة العضو</label><input type="file" id="mPhoto" accept="image/*">
-<button onclick="makeCard()">إصدار الكارنيه + باركود</button>
-<button class="gray adminOnly hidden" onclick="saveMember()">حفظ العضو في قاعدة الأعضاء</button>
-<div id="cardPreview" style="margin-top:16px"></div>
-<div id="membersList" style="margin-top:16px"></div>
-</div></div>
+<input id="mName" placeholder="اسم العضو"><input id="mRole" placeholder="الدور / اللجنة"><input id="mId" placeholder="رقم العضوية - مثال: EDFU-001"><input id="mPhone" placeholder="رقم التليفون"><label>صورة العضو</label><input type="file" id="mPhoto" accept="image/*">
+<button onclick="makeCard()">إصدار الكارنيه + باركود</button><button class="gray adminOnly hidden" onclick="saveMember()">حفظ العضو</button><div id="cardPreview" style="margin-top:16px"></div><div id="membersList" style="margin-top:16px"></div></div></div>
 </div>
-
 <footer>© مؤسسة القيادات الشبابية - إدفو</footer>
 
 <div class="modal" id="loginModal"><div class="box"><h2>دخول الأدمن</h2><input type="password" id="adminPass" placeholder="كلمة السر"><button onclick="login()">دخول</button><button class="gray" onclick="closeModal('loginModal')">إغلاق</button></div></div>
 <div class="modal" id="newsModal"><div class="box"><h2>خبر جديد</h2><input id="nTitle" placeholder="عنوان الخبر"><textarea id="nText" rows="4" placeholder="اكتب الخبر هنا..."></textarea><input type="file" id="nImg" accept="image/*"><button onclick="addNews()">نشر الخبر</button><button class="gray" onclick="closeModal('newsModal')">إلغاء</button></div></div>
 <div class="modal" id="galleryModal"><div class="box"><h2>نشاط جديد</h2><input id="gTitle" placeholder="اسم النشاط"><textarea id="gDesc" placeholder="وصف النشاط"></textarea><input type="file" id="gImg" accept="image/*"><button onclick="addGallery()">إضافة</button><button class="gray" onclick="closeModal('galleryModal')">إلغاء</button></div></div>
-<div class="modal
+<div class="modal" id="fileModal"><div class="box"><h2>رفع ملف</h2><input id="fTitle" placeholder="اسم الملف"><input type="file" id="fFile"><button onclick="addFile()">رفع</button><button class="gray" onclick="closeModal('fileModal')">إلغاء</button></div></div>
+<a href="https://wa.me/201150844699" class="whatsapp-float" target="_blank">💬</a>
+
+<script>
+var PASSWORD = "ابو مروان@٢٠٢٦#ادفو";
+var isAdmin = localStorage.getItem('edfu_admin')==='1';
+function showSec(id){ var ids=['home','newsSec','activitySec','filesSec','cardSec','adminSec']; for(var i=0;i<ids.length;i++){ document.getElementById(ids[i]).classList.add('hidden'); } document.getElementById(id).classList.remove('hidden'); window.scrollTo(0,0); }
+function openModal(id){ document.getElementById(id).classList.add('open'); }
+function closeModal(id){ document.getElementById(id).classList.remove('open'); }
+function openLogin(){ if(isAdmin){ showSec('adminSec'); } else { openModal('loginModal'); } }
+function login(){ var v=document.getElementById('adminPass').value; if(v===PASSWORD){ isAdmin=true; localStorage.setItem('edfu_admin','1'); closeModal('loginModal'); updateAdminUI(); showSec('adminSec'); alert('أهلا بيك يا أدمن'); } else { alert('كلمة السر غلط'); } }
+function logout(){ isAdmin=false; localStorage.removeItem('edfu_admin'); updateAdminUI(); showSec('home'); }
+function updateAdminUI(){ var els=document.querySelectorAll('.adminOnly'); for(var i=0;i<els.length;i++){ els[i].classList.toggle('hidden',!isAdmin); } document.getElementById('logoutBtn').classList.toggle('hidden',!isAdmin); document.getElementById('adminBtn').textContent=isAdmin?'لوحة التحكم ⚙️':'دخول الأدمن 🔐'; renderAll(); }
+function fileToData(f,cb){ var r=new FileReader(); r.onload=function(e){ cb(e.target.result); }; r.readAsDataURL(f); }
+document.addEventListener('click',function(e){ if(e.target.classList && e.target.classList.contains('modal')) e.target.classList.remove('open'); });
+
+// Firebase Compat - بيشتغل من الموبايل مباشرة
+var firebaseConfig = { apiKey:"AIzaSyAuIh2OMchkJyGfJg5bf7qOG8_qq_fpRR4", authDomain:"edfu-muasasa-2026-f5505.firebaseapp.com", projectId:"edfu-muasasa-2026-f5505", storageBucket:"edfu-muasasa-2026-f5505.firebasestorage.app", messagingSenderId:"654252383649", appId:"1:654252383649:web:2165cc2db078dcf0cf7fe0", measurementId:"G-FJ4KVVWG73" };
+try{ firebase.initializeApp(firebaseConfig); }catch(e){}
+var db = firebase.firestore();
+var docRef = db.collection("sections").doc("main");
+var SECTIONS = [
+{id:"qafela", title:"القافلة الطبية", color:"#1e3a8a", border:"#1e3a8a"},
+{id:"wa3y", title:"الوعي نور", color:"#c81e1e", border:"#c81e1e"},
+{id:"elm", title:"مبادرة العلم نور", color:"#0f7a4a", border:"#0f7a4a"},
+{id:"shabab", title:"شبابنا قوتنا", color:"#000", border:"#000"},
+{id:"tamreed", title:"🏥 التمريض المنزلي", color:"#1e3a8a", border:"#1e3a8a"},
+{id:"quran", title:"📖 حفظة كتاب الله", color:"#0f7a4a", border:"#0f7a4a"},
+{id:"october", title:"🇪🇬 انتصارات اكتوبر", color:"#7a0000", border:"#c81e1e"},
+{id:"doyouf", title:"🕋 ضيوف الرحمن", color:"#000", border:"#000"},
+];
+var defaultData={}; SECTIONS.forEach(function(s){ defaultData[s.id]=[]; });
+defaultData["shabab"] = ["IMG-20261101-WA0023.jpg","IMG-20261101-WA0024.jpg","IMG-20261101-WA0025.jpg","IMG-20261101-WA0026.jpg","IMG-20261101-WA0028.jpg","IMG-20261101-WA0029.jpg","IMG-20261101-WA0030.jpg","IMG-20261101-WA0031.jpg","IMG-20261101-WA0033.jpg","IMG-20261101-WA0034.jpg","IMG-20261101-WA0035.jpg","IMG-20261101-WA0036.jpg","IMG-20261101-WA0037.jpg","IMG-20261101-WA0042.jpg","IMG-20261101-WA0043.jpg","IMG-20261101-WA0044.jpg","IMG-20261101-WA0045.jpg","IMG-20261101-WA0046.jpg","IMG-20261101-WA0047.jpg","IMG-20261101-WA0048.jpg","IMG-20261101-WA0049.jpg","IMG-20261101-WA0050.jpg","IMG-20261101-WA0051.jpg","IMG-20261101-WA0052.jpg","IMG-20261101-WA0053.jpg","IMG-20261101-WA0054.jpg","IMG-20261101-WA0055.jpg","IMG-20261101-WA0056.jpg"].map(function(u){ return {title:"شبابنا قوتنا",url:u}; });
+defaultData.news=[]; defaultData.activities=[]; defaultData.files=[]; defaultData.members=[];
+var data = JSON.parse(JSON.stringify(defaultData));
+function saveToFirebase(){ docRef.set({data:data}).catch(function(e){ alert('مشكلة في الحفظ'); }); }
+function loadFromFirebase(){ docRef.get().then(function(snap){ if(snap.exists && snap.data().data){ data=snap.data().data; if(!data.shabab||data.shabab.length===0) data.shabab=defaultData.shabab; if(!data.news) data.news=[]; if(!data.activities) data.activities=[]; if(!data.files) data.files=[]; if(!data.members) data.members=[]; } else { docRef.set({data:data}); } renderAll(); }).catch(function(e){ renderAll(); }); }
+function addNews(){ var t=document.getElementById('nTitle').value; var x=document.getElementById('nText').value; var f=document.getElementById('nImg').files[0]; if(!t||!x) return alert('اكتب العنوان والخبر'); var push=function(img){ data.news.unshift({t:t,x:x,img:img,date:new Date().toLocaleDateString('ar-EG')}); saveToFirebase(); renderAll(); closeModal('newsModal'); }; if(f) fileToData(f,push); else push(''); }
+function addGallery(){ var t=document.getElementById('gTitle').value; var d=document.getElementById('gDesc').value; var f=document.getElementById('gImg').files[0]; if(!t) return alert('اكتب اسم النشاط'); var push=function(img){ data.activities.unshift({t:t,d:d,img:img}); saveToFirebase(); renderAll(); closeModal('galleryModal'); }; if(f) fileToData(f,push); else push(''); }
+function addFile(){ var t=document.getElementById('fTitle').value; var f=document.getElementById('fFile').files[0]; if(!t||!f) return alert('اكتب الاسم واختار ملف'); fileToData(f,function(dt){ data.files.unshift({t:t,name:f.name,data:dt}); saveToFirebase(); renderAll(); closeModal('fileModal'); alert('تم رفع الملف'); }); }
+function makeCard(){ var name=document.getElementById('mName').value; var role=document.getElementById('mRole').value; var id=document.getElementById('mId').value; var phone=document.getElementById('mPhone').value; var f=document.getElementById('mPhoto').files[0]; if(!name||!id) return alert('اكتب الاسم ورقم العضوية'); var draw=function(img){ document.getElementById('cardPreview').innerHTML='<div class="idcard"><img src="'+(img||'https://via.placeholder.com/90')+'"><h3 style="margin:8px 0 2px">'+name+'</h3><p>'+role+'</p><p>عضوية: '+id+' | '+phone+'</p><svg id="barcode"></svg><p style="font-size:12px">مؤسسة القيادات الشبابية - إدفو</p><button onclick="window.print()" style="background:#fff;color:#0b3d2e;margin-top:8px">طباعة الكارنيه 🖨️</button></div>'; setTimeout(function(){ try{ JsBarcode("#barcode",id,{format:"CODE128",width:1.6,height:45,displayValue:true,background:"#fff"}); }catch(e){} },200); }; if(f) fileToData(f,draw); else draw(''); }
+function saveMember(){ var name=document.getElementById('mName').value; var role=document.getElementById('mRole').value; var id=document.getElementById('mId').value; var phone=document.getElementById('mPhone').value; if(!name||!id) return alert('اكمل البيانات'); data.members.unshift({name:name,role:role,id:id,phone:phone}); saveToFirebase(); renderAll(); alert('تم حفظ العضو'); }
+function delItem(type,idx){ if(!confirm('متأكد تحذف؟')) return; data[type].splice(idx,1); saveToFirebase(); renderAll(); }
+function delOld(secId,idx){ if(!confirm('متأكد تحذف الصورة دي؟')) return; data[secId].splice(idx,1); saveToFirebase(); renderAll(); }
+function renderAll(){
+  var wrap=document.getElementById("sections"); if(!wrap) return; wrap.innerHTML="";
+  SECTIONS.forEach(function(s){
+    var div=document.createElement("div"); div.className="section"; div.style.borderColor=s.border;
+    var imgs=data[s.id]||[];
+    var gridHtml=imgs.length===0?'<div class="empty">لسه مفيش صور في القسم ده</div>':imgs.map(function(it,i){ return '<div class="card"><img src="'+it.url+'" onerror="this.parentElement.style.display=\'none\'">'+(isAdmin?'<div><button class="red" onclick="delOld(\''+s.id+'\','+i+')">حذف</button></div>':'')+'</div>'; }).join("");
+    div.innerHTML='<div class="sec-title" style="background:'+s.color+'">'+s.title+'</div><div class="grid">'+gridHtml+'</div>';
+    wrap.appendChild(div);
+  });
+  document.getElementById('statNews').textContent=(data.news||[]).length;
+  document.getElementById('statGal').textContent=(data.activities||[]).length;
+  document.getElementById('statFiles').textContent=(data.files||[]).length;
+  document.getElementById('statMembers').textContent=(data.members||[]).length;
+  document.getElementById('newsList').innerHTML=(data.news||[]).map(function(n,i){ return '<div class="section"><h3>'+n.t+'</h3><p>'+n.x+'</p>'+(n.img?'<img src="'+n.img+'" style="width:100%;border-radius:12px;margin-top:8px">':'')+'<br><small>'+(n.date||'')+'</small> '+(isAdmin?'<br><button class="red" onclick="delItem(\'news\','+i+')">حذف</button>':'')+'</div>'; }).join('')||'لا توجد أخبار بعد';
+  document.getElementById('homeNews').innerHTML=(data.news||[]).slice(0,3).map(function(n){ return '<div style="padding:8px;border-bottom:1px solid #eee"><b>'+n.t+'</b> - '+n.x.slice(0,80)+'...</div>'; }).join('')||'لا توجد أخبار بعد';
+  document.getElementById('galleryList').innerHTML=(data.activities||[]).map(function(g,i){ return '<div class="card">'+(g.img?'<img src="'+g.img+'">':'')+'<div><b>'+g.t+'</b><p>'+(g.d||'')+'</p>'+(isAdmin?'<button class="red" onclick="delItem(\'activities\','+i+')">حذف</button>':'')+'</div></div>'; }).join('')||'لا توجد أنشطة';
+  document.getElementById('filesList').innerHTML=(data.files||[]).map(function(f,i){ return '<div class="file-row"><span>📄 '+f.t+' - '+f.name+'</span><span><a href="'+f.data+'" download="'+f.name+'"><button>تحميل</button></a> '+(isAdmin?'<button class="red" onclick="delItem(\'files\','+i+')">حذف</button>':'')+'</span></div>'; }).join('')||'لا توجد ملفات';
+  document.getElementById('membersList').innerHTML='<h3>قاعدة الأعضاء</h3>'+(data.members||[]).map(function(m,i){ return '<div class="file-row"><span>👤 '+m.name+' - '+m.id+' - '+(m.role||'')+'</span>'+(isAdmin?'<button class="red" onclick="delItem(\'members\','+i+')">حذف</button>':'')+'</div>'; }).join('')||'لا يوجد أعضاء';
+}
+updateAdminUI();
+loadFromFirebase();
+</script>
+</body>
+</html>
