@@ -4,96 +4,82 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>مؤسسة القيادات الشبابية - إدفو</title>
+<script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.6/dist/JsBarcode.all.min.js"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;font-family:Tahoma,Arial,sans-serif}
 body{background:#f2f2f2;color:#222}
-header{background:#0b3d2e;color:#fff;padding:20px 14px;text-align:center}
+header{background:#0b3d2e;color:#fff;padding:20px 14px;text-align:center;position:sticky;top:0;z-index:20}
 header h1{font-size:25px} header p{font-size:14px;opacity:.9}
 .banner{background:#f5c518;color:#000;text-align:center;padding:11px;font-weight:bold}
 .banner img{width:100%;max-height:230px;object-fit:cover;display:block;margin-top:10px;border-radius:10px}
+.topbar{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;padding:10px;background:#fff;box-shadow:0 2px 8px #0001;position:sticky;top:76px;z-index:19}
+button{border:0;padding:10px 14px;border-radius:10px;cursor:pointer;font-weight:700;background:#0b3d2e;color:#fff;font-size:14px}
+button.gray{background:#eee;color:#222} button.red{background:#c0392b;color:#fff}
 .container{max-width:1000px;margin:auto;padding:12px}
 .section{background:#fff;border:2px solid #ddd;border-radius:16px;padding:12px;margin-bottom:14px}
 .sec-title{padding:14px;border-radius:12px;color:#fff;text-align:center;font-size:19px;font-weight:bold;margin-bottom:10px}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px}
-.card{border-radius:12px;overflow:hidden;box-shadow:0 2px 6px rgba(0,0,0,.1)}
+.card{border-radius:12px;overflow:hidden;box-shadow:0 2px 6px rgba(0,0,0,.1);background:#fff}
 .card img{width:100%;height:150px;object-fit:cover;display:block}
-footer{text-align:center;padding:20px;font-size:13px;color:#fff;background:#0b3d2e}
+.card div{padding:10px}
+input,textarea,select{width:100%;padding:11px;border:1px solid #ddd;border-radius:10px;margin-bottom:10px;font-size:15px;background:#fff}
+.modal{position:fixed;inset:0;background:#0008;display:none;align-items:center;justify-content:center;padding:16px;z-index:99}
+.modal.open{display:flex} .modal .box{background:#fff;width:100%;max-width:560px;border-radius:16px;padding:18px;max-height:90vh;overflow:auto}
+.idcard{width:340px;max-width:100%;background:linear-gradient(135deg,#0b3d2e,#12805c);color:#fff;border-radius:16px;padding:16px;text-align:center;margin:auto}
+.idcard img{width:90px;height:90px;object-fit:cover;border-radius:50%;border:3px solid #fff}
+.idcard svg{background:#fff;border-radius:8px;padding:6px;margin-top:10px}
+.file-row{display:flex;justify-content:space-between;align-items:center;gap:8px;background:#f8f8f8;padding:10px;border-radius:10px;margin-bottom:8px;flex-wrap:wrap}
+.hidden{display:none!important}
 .empty{font-size:13px;color:#888;text-align:center;padding:10px}
+footer{text-align:center;padding:20px;font-size:13px;color:#fff;background:#0b3d2e}
+.whatsapp-float{position:fixed;bottom:18px;left:18px;z-index:999;background:#25D366;color:#fff;width:60px;height:60px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:32px;text-decoration:none;box-shadow:0 4px 12px rgba(0,0,0,.3)}
 </style>
 </head>
 <body>
 <header><h1>مؤسسة القيادات الشبابية</h1><p>فرع إدفو - أسوان</p></header>
 <div class="banner">المشهرة برقم 1833 لسنة 2026<img src="banner.jpg" onerror="this.style.display='none'"></div>
-<div class="container" id="sections"></div>
-<footer>© مؤسسة القيادات الشبابية - إدفو</footer>
 
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+<div class="topbar">
+<button onclick="showSec('home')">الرئيسية</button>
+<button onclick="showSec('newsSec')">📰 الأخبار</button>
+<button onclick="showSec('activitySec')">📸 معرض الأنشطة</button>
+<button onclick="showSec('filesSec')">📁 مركز الملفات</button>
+<button onclick="showSec('cardSec')">🪪 الكارنيه</button>
+<button id="adminBtn" onclick="openLogin()">دخول الأدمن 🔐</button>
+<button id="logoutBtn" class="gray hidden" onclick="logout()">خروج</button>
+</div>
 
-const PASSWORD = "Mahmoud@2026#Edfu";
+<div class="container">
+<!-- الرئيسية - الاقسام القديمة -->
+<div id="home">
+<div class="section"><h2 style="text-align:center;color:#0b3d2e">آخر الأخبار</h2><div id="homeNews"></div></div>
+<div id="sections"></div>
+</div>
 
-const firebaseConfig = {
-  apiKey: "AIzaSyAuIh2OMchkJyGfJg5bf7qOG8_qq_fpRR4",
-  authDomain: "edfu-muasasa-2026-f5505.firebaseapp.com",
-  projectId: "edfu-muasasa-2026-f5505",
-  storageBucket: "edfu-muasasa-2026-f5505.firebasestorage.app",
-  messagingSenderId: "654252383649",
-  appId: "1:654252383649:web:2165cc2db078dcf0cf7fe0",
-  measurementId: "G-FJ4KVVWG73"
-};
+<!-- لوحة التحكم -->
+<div id="adminSec" class="hidden">
+<div class="section"><h2>⚙️ لوحة تحكم الإدارة</h2>
+<p>📰 الأخبار: <b id="statNews">0</b> | 📸 الأنشطة: <b id="statGal">0</b> | 📁 الملفات: <b id="statFiles">0</b> | 👥 الأعضاء: <b id="statMembers">0</b></p><br>
+<button onclick="showSec('newsSec')">إدارة الأخبار</button>
+<button onclick="showSec('activitySec')">إدارة المعرض</button>
+<button onclick="showSec('filesSec')">إدارة الملفات</button>
+<button onclick="showSec('cardSec')">إدارة الأعضاء</button>
+<button onclick="showSec('home')">إدارة أقسام الصور القديمة</button><br><br>
+<div id="oldSectionsAdmin"></div>
+</div>
+</div>
 
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
-const docRef = doc(db, "sections", "main");
+<!-- الأخبار -->
+<div id="newsSec" class="hidden"><div class="section"><h2>📰 الأخبار والكتابة</h2><button class="adminOnly hidden" onclick="openModal('newsModal')">+ إضافة خبر جديد</button><div id="newsList" style="margin-top:12px"></div></div></div>
 
-const SECTIONS = [
-{id:"qafela", title:"القافلة الطبية", color:"#1e3a8a", border:"#1e3a8a"},
-{id:"wa3y", title:"الوعي نور", color:"#c81e1e", border:"#c81e1e"},
-{id:"elm", title:"مبادرة العلم نور", color:"#0f7a4a", border:"#0f7a4a"},
-{id:"shabab", title:"شبابنا قوتنا", color:"#000", border:"#000"},
-{id:"tamreed", title:"🏥 التمريض المنزلي", color:"#1e3a8a", border:"#1e3a8a"},
-{id:"quran", title:"📖 حفظة كتاب الله", color:"#0f7a4a", border:"#0f7a4a"},
-{id:"october", title:"🇪🇬 انتصارات اكتوبر", color:"#7a0000", border:"#c81e1e"},
-{id:"doyouf", title:"🕋 ضيوف الرحمن", color:"#000", border:"#000"},
-];
+<!-- معرض الأنشطة الجديد -->
+<div id="activitySec" class="hidden"><div class="section"><h2>📸 معرض الأنشطة</h2><button class="adminOnly hidden" onclick="openModal('galleryModal')">+ إضافة نشاط</button><div id="galleryList" class="grid" style="margin-top:12px"></div></div></div>
 
-let defaultData = {};
-SECTIONS.forEach(s=> defaultData[s.id]=[]);
-defaultData["shabab"] = ["IMG-20261101-WA0023.jpg","IMG-20261101-WA0024.jpg","IMG-20261101-WA0025.jpg","IMG-20261101-WA0026.jpg","IMG-20261101-WA0028.jpg","IMG-20261101-WA0029.jpg","IMG-20261101-WA0030.jpg","IMG-20261101-WA0031.jpg","IMG-20261101-WA0033.jpg","IMG-20261101-WA0034.jpg","IMG-20261101-WA0035.jpg","IMG-20261101-WA0036.jpg","IMG-20261101-WA0037.jpg","IMG-20261101-WA0042.jpg","IMG-20261101-WA0043.jpg","IMG-20261101-WA0044.jpg","IMG-20261101-WA0045.jpg","IMG-20261101-WA0046.jpg","IMG-20261101-WA0047.jpg","IMG-20261101-WA0048.jpg","IMG-20261101-WA0049.jpg","IMG-20261101-WA0050.jpg","IMG-20261101-WA0051.jpg","IMG-20261101-WA0052.jpg","IMG-20261101-WA0053.jpg","IMG-20261101-WA0054.jpg","IMG-20261101-WA0055.jpg","IMG-20261101-WA0056.jpg"].map(u=>({title:"شبابنا قوتنا",url:u}));
+<!-- الملفات -->
+<div id="filesSec" class="hidden"><div class="section"><h2>📁 مركز رفع الملفات</h2><p>ارفع مستندات، صور، PDF، وورد.</p><button class="adminOnly hidden" onclick="openModal('fileModal')">+ رفع ملف جديد</button><div id="filesList" style="margin-top:12px"></div></div></div>
 
-let data = JSON.parse(JSON.stringify(defaultData));
-
-async function loadFromFirebase(){
-  try{
-    const snap = await getDoc(docRef);
-    if(snap.exists() && snap.data().data){
-      data = snap.data().data;
-      if(!data.shabab || data.shabab.length===0) data.shabab = defaultData.shabab;
-    } else {
-      await setDoc(docRef, {data});
-    }
-  }catch(e){ console.log("Firebase load error", e); }
-  render();
-}
-
-function render(){
-  const wrap = document.getElementById("sections"); wrap.innerHTML="";
-  SECTIONS.forEach(s=>{
-    const div=document.createElement("div"); div.className="section"; div.style.borderColor=s.border;
-    let imgs = data[s.id]||[];
-    let gridHtml = imgs.length===0 ? `<div class="empty">لسه مفيش صور في القسم ده</div>` : imgs.map((it,i)=>`<div class="card"><img src="${it.url}" onerror="this.parentElement.style.display='none'"></div>`).join("");
-    div.innerHTML=`<div class="sec-title" style="background:${s.color}">${s.title}</div><div class="grid">${gridHtml}</div>`;
-    wrap.appendChild(div);
-  });
-}
-
-loadFromFirebase();
-</script><style>
-.whatsapp-float{position:fixed;bottom:18px;left:18px;z-index:999;background:#25D366;color:#fff;width:60px;height:60px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:32px;text-decoration:none;box-shadow:0 4px 12px rgba(0,0,0,.3)}
-.whatsapp-float:active{transform:scale(.95)}
-</style>
-
-<a href="https://wa.me/201150844699?text=%D8%A7%D9%84%D8%B3%D9%84%D8%A7%D9%85%20%D8%B9%D9%84%D9%8A%D9%83%D9%85%D8%8C%20%D8%B9%D8%A7%D9%8A%D8%B2%20%D8%A7%D8%B3%D8%AA%D9%81%D8%B3%D8%B1%20%D8%B9%D9%86%20%D9%85%D8%A4%D8%B3%D8%B3%D8%A9%20%D8%A7%D9%84%D9%82%D9%8A%D8%A7%D8%AF%D8%A7%D8%AA%20%D8%A7%D9%84%D8%B4%D8%A8%D8%A7%D8%A8%D9%8A%D8%A9%20-%20%D8%A5%D8%AF%D9%81%D9%88" class="whatsapp-float" target="_blank" title="تواصل واتساب">💬</a>
-</body>
-</html>
+<!-- الكارنيه -->
+<div id="cardSec" class="hidden"><div class="section"><h2>🪪 نظام الكارنيه والباركود</h2>
+<input id="mName" placeholder="اسم العضو">
+<input id="mRole" placeholder="الدور / اللجنة - مثال: عضو - لجنة التنظيم">
+<input id="mId" placeholder="رقم العضوية - مثال: EDF
